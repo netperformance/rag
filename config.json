@@ -7,5 +7,9 @@
   "service_urls": {
     "structuring_service": "http://127.0.0.1:8001/structure-pdf/",
     "nlp_service": "http://127.0.0.1:8002/process/"
+  },
+  "orchestrator_config": {
+    "pdf_file_to_check": "test_oc.pdf",
+    "log_file_path": "logging.txt"
   }
 }

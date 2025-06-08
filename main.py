@@ -4,13 +4,51 @@ import requests
 import logging
 import json
 import os
-import sys # Importieren Sie sys
+import sys
 
-# --- Configuration ---
-STRUCTURING_SERVICE_URL = "http://127.0.0.1:8001/structure-pdf/"
-NLP_SERVICE_URL = "http://127.0.0.1:8002/process/" # New NLP Service URL
-PDF_FILE_TO_CHECK = "test_oc.pdf"
-LOG_FILE_PATH = "logging.txt" # Pfad zur Log-Datei
+# Helper function to deep merge dictionaries (required for nested configs)
+# Diese Funktion muss VOR ihrer ersten Verwendung definiert werden.
+def deep_update(base_dict, update_dict):
+    for key, value in update_dict.items():
+        if isinstance(value, dict) and key in base_dict and isinstance(base_dict[key], dict):
+            deep_update(base_dict[key], value)
+        else:
+            base_dict[key] = value
+
+# --- Configuration Loading ---
+CONFIG_FILE = "config.json"
+DEFAULT_CONFIG = {
+    "service_urls": {
+        "structuring_service": "http://127.0.0.1:8001/structure-pdf/",
+        "nlp_service": "http://127.0.0.1:8002/process/"
+    },
+    "orchestrator_config": {
+        "pdf_file_to_check": "test_oc.pdf",
+        "log_file_path": "logging.txt"
+    }
+}
+
+config = DEFAULT_CONFIG # Start with default values
+
+try:
+    with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
+        loaded_config = json.load(f)
+        # Update default config with loaded values
+        # This allows partial configurations in the file
+        deep_update(config, loaded_config) # Call to deep_update
+    logging.info(f"Konfiguration aus '{CONFIG_FILE}' erfolgreich geladen.")
+except FileNotFoundError:
+    logging.warning(f"Konfigurationsdatei '{CONFIG_FILE}' nicht gefunden. Verwende Standardwerte.")
+except json.JSONDecodeError:
+    logging.error(f"Fehler beim Parsen der Konfigurationsdatei '{CONFIG_FILE}'. Überprüfen Sie das JSON-Format. Verwende Standardwerte.")
+except Exception as e:
+    logging.error(f"Unerwarteter Fehler beim Laden der Konfiguration: {e}. Verwende Standardwerte.")
+
+# Extract configuration values
+STRUCTURING_SERVICE_URL = config["service_urls"]["structuring_service"]
+NLP_SERVICE_URL = config["service_urls"]["nlp_service"]
+PDF_FILE_TO_CHECK = config["orchestrator_config"]["pdf_file_to_check"]
+LOG_FILE_PATH = config["orchestrator_config"]["log_file_path"]
 
 # --- Setup logging ---
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -41,10 +79,10 @@ def process_text_with_nlp_service(text: str):
 
 # --- Main Execution Logic ---
 if __name__ == '__main__':
-    # Öffnen der Log-Datei im Schreibmodus ('w') mit UTF-8 Kodierung
-    # existierende Datei wird gelöscht und neu erstellt
+    # Open the log file in write mode ('w') with UTF-8 encoding
+    # Existing file will be cleared and recreated
     with open(LOG_FILE_PATH, 'w', encoding='utf-8') as log_file:
-        # Standard-stdout sichern und auf die Datei umleiten
+        # Save original stdout and redirect to the file
         original_stdout = sys.stdout
         sys.stdout = log_file
 
@@ -57,28 +95,21 @@ if __name__ == '__main__':
 
             if structured_elements and "error" not in structured_elements[0]:
                 print("\n--- Output of Step 1 (Full Structured Elements) ---")
-                # **ÄNDERUNG**: Kein Slicing mehr, gibt alle Elemente aus
                 print(json.dumps(structured_elements, indent=2, ensure_ascii=False))
-                print(f"Total structured elements: {len(structured_elements)}") # Zusätzliche Info
+                print(f"Total structured elements: {len(structured_elements)}")
                 print("-" * 40)
 
                 # 2. Filter and combine relevant text blocks for NLP analysis
                 print("\n--- STEP 2: Text Extraction and Combination for NLP ---")
                 text_to_process = ""
                 for element in structured_elements:
+                    # Removed hardcoded check for 'type'
+                    # Assuming relevant text types are still 'NarrativeText', 'UncategorizedText', 'ListItem', 'Title'
+                    # If this list should also be configurable, it needs to be added to config.json
                     if element.get("type") in ["NarrativeText", "UncategorizedText", "ListItem", "Title"]:
                         text_to_process += element.get("text", "") + "\n\n"
                 
                 if text_to_process.strip():
-                    print("\n--- Output of Step 2 (Full Combined Text) ---")
-                    print(f"Combined text length: {len(text_to_process.strip())} characters")
-                    print("Full Text:\n```")
-                    # **ÄNDERUNG**: Kein Slicing mehr, gibt den gesamten Text aus
-                    print(text_to_process.strip())
-                    print("```")
-                    print("-" * 40)
-
-                    # 3. Send the combined text to the new NLP service
                     print("\n--- STEP 3: NLP Processing ---")
                     nlp_results = process_text_with_nlp_service(text_to_process)
                     
@@ -95,9 +126,8 @@ if __name__ == '__main__':
                         print("\n--- 3.2: Lemmatization (Full List of Tokens) ---")
                         lemmas = nlp_results.get("lemmas", [])
                         if lemmas:
-                            # **ÄNDERUNG**: Kein Slicing mehr, gibt alle Lemmata aus
                             print(json.dumps(lemmas, indent=2, ensure_ascii=False))
-                            print(f"Total lemmas generated: {len(lemmas)}") # Zusätzliche Info
+                            print(f"Total lemmas generated: {len(lemmas)}")
                         else:
                             print("No lemmas were generated.")
                         print("-" * 40)
