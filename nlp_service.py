@@ -1,10 +1,12 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification
+from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification, Pipeline
 import spacy
+import spacy.cli # Zum Herunterladen von spaCy-Modellen
 import logging
 import json
-import os # Wird nicht direkt für hartkodierte Pfade verwendet, ist aber oft nützlich
+import os
+from typing import Dict, Any, Optional
 
 app = FastAPI()
 
@@ -14,9 +16,11 @@ logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 CONFIG_FILE = "config.json"
 DEFAULT_CONFIG = {
     "nlp_model_config": {
-        "ner_model_name": "domischwimmbeck/bert-base-german-cased-fine-tuned-ner",
-        "lemmatization_enabled": True,
-        "lemmatization_model_name": "de_core_news_sm"
+        "ner_model_name_de": "domischwimmbeck/bert-base-german-cased-fine-tuned-ner",
+        "lemmatization_model_name_de": "de_core_news_sm",
+        "ner_model_name_en": "dslim/bert-base-NER",
+        "lemmatization_model_name_en": "en_core_web_sm",
+        "lemmatization_enabled": True
     },
     "service_urls": {
         "structuring_service": "http://127.0.0.1:8001/structure-pdf/",
@@ -24,14 +28,18 @@ DEFAULT_CONFIG = {
     }
 }
 
-config = DEFAULT_CONFIG # Beginne mit Standardwerten
+config = DEFAULT_CONFIG
 
 try:
     with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
         loaded_config = json.load(f)
-        # Standardwerte mit geladenen Werten aktualisieren
-        # Dies erlaubt, dass nur Teile der Konfiguration in der Datei stehen müssen
-        config.update(loaded_config)
+        def deep_update(base_dict, update_dict):
+            for key, value in update_dict.items():
+                if isinstance(value, dict) and key in base_dict and isinstance(base_dict[key], dict):
+                    deep_update(base_dict[key], value)
+                else:
+                    base_dict[key] = value
+        deep_update(config, loaded_config)
     logging.info(f"Konfiguration aus '{CONFIG_FILE}' erfolgreich geladen.")
 except FileNotFoundError:
     logging.warning(f"Konfigurationsdatei '{CONFIG_FILE}' nicht gefunden. Verwende Standardwerte.")
@@ -41,86 +49,136 @@ except Exception as e:
     logging.error(f"Unerwarteter Fehler beim Laden der Konfiguration: {e}. Verwende Standardwerte.")
 
 # Konfigurationswerte aus dem geladenen/Standard-Konfig-Objekt extrahieren
-# Vermeidet hartkodierte Strings durch Verwendung der Keys aus DEFAULT_CONFIG
-NER_MODEL_NAME = config.get("nlp_model_config", {}).get("ner_model_name", DEFAULT_CONFIG["nlp_model_config"]["ner_model_name"])
-LEMMATIZATION_ENABLED = config.get("nlp_model_config", {}).get("lemmatization_enabled", DEFAULT_CONFIG["nlp_model_config"]["lemmatization_enabled"])
-LEMMATIZATION_MODEL_NAME = config.get("nlp_model_config", {}).get("lemmatization_model_name", DEFAULT_CONFIG["nlp_model_config"]["lemmatization_model_name"])
+NER_MODEL_NAME_DE = config["nlp_model_config"]["ner_model_name_de"]
+LEMMATIZATION_MODEL_NAME_DE = config["nlp_model_config"]["lemmatization_model_name_de"]
+NER_MODEL_NAME_EN = config["nlp_model_config"]["ner_model_name_en"]
+LEMMATIZATION_MODEL_NAME_EN = config["nlp_model_config"]["lemmatization_model_name_en"]
+LEMMATIZATION_ENABLED = config["nlp_model_config"]["lemmatization_enabled"]
 
-# --- NER-Modell laden ---
-ner_pipeline = None
-try:
-    logging.info(f"Lade NER-Modell: {NER_MODEL_NAME}...")
-    tokenizer = AutoTokenizer.from_pretrained(NER_MODEL_NAME)
-    model = AutoModelForTokenClassification.from_pretrained(NER_MODEL_NAME)
-    ner_pipeline = pipeline(
-        "ner",
-        model=model,
-        tokenizer=tokenizer,
-        aggregation_strategy="simple" # Aggregiere Token, die zu einer Entität gehören
-    )
-    logging.info("NER-Modell erfolgreich geladen.")
-except Exception as e:
-    logging.error(f"Fehler beim Laden des NER-Modells '{NER_MODEL_NAME}': {e}")
-    # Der Dienst wird gestartet, aber /process wird fehlschlagen, wenn ner_pipeline None ist.
+# Globale Variablen für NER-Pipelines und spaCy-Modelle
+ner_pipeline_de: Optional[Pipeline] = None
+nlp_lemmatizer_de: Optional[spacy.language.Language] = None
+ner_pipeline_en: Optional[Pipeline] = None
+nlp_lemmatizer_en: Optional[spacy.language.Language] = None
 
-# --- Lemmatisierungsmodell laden (falls aktiviert) ---
-nlp_lemmatizer = None
-if LEMMATIZATION_ENABLED:
-    try:
-        logging.info(f"Lade Lemmatisierungsmodell: {LEMMATIZATION_MODEL_NAME} (spaCy)...")
-        # Versuche, das spaCy-Modell zu laden. Wenn es nicht gefunden wird, muss es heruntergeladen werden
-        try:
-            nlp_lemmatizer = spacy.load(LEMMATIZATION_MODEL_NAME)
-        except OSError:
-            logging.warning(f"spaCy Modell '{LEMMATIZATION_MODEL_NAME}' nicht gefunden. Versuche es herunterzuladen...")
-            spacy.cli.download(LEMMATIZATION_MODEL_NAME) # Hier kann es zu einem Problem kommen, wenn Berechtigungen fehlen oder spacy.cli nicht funktioniert
-            nlp_lemmatizer = spacy.load(LEMMATIZATION_MODEL_NAME)
-        logging.info("Lemmatisierungsmodell erfolgreich geladen.")
-    except Exception as e:
-        logging.error(f"Fehler beim Laden oder Herunterladen des Lemmatisierungsmodells '{LEMMATIZATION_MODEL_NAME}': {e}")
-        # Wenn Lemmatisierung fehlschlägt, setzen Sie nlp_lemmatizer auf None, damit es später nicht verwendet wird
-        nlp_lemmatizer = None
+def load_models_for_language(lang: str):
+    """Lädt die entsprechenden NLP-Modelle für die angegebene Sprache."""
+    global ner_pipeline_de, nlp_lemmatizer_de, ner_pipeline_en, nlp_lemmatizer_en
 
-class TextPayload(BaseModel):
+    if lang == "de":
+        if ner_pipeline_de is None:
+            try:
+                logging.info(f"Lade deutsches NER-Modell: {NER_MODEL_NAME_DE}...")
+                tokenizer_de = AutoTokenizer.from_pretrained(NER_MODEL_NAME_DE)
+                model_de = AutoModelForTokenClassification.from_pretrained(NER_MODEL_NAME_DE)
+                ner_pipeline_de = pipeline(
+                    "ner",
+                    model=model_de,
+                    tokenizer=tokenizer_de,
+                    aggregation_strategy="simple"
+                )
+                logging.info("Deutsches NER-Modell erfolgreich geladen.")
+            except Exception as e:
+                logging.error(f"Fehler beim Laden des deutschen NER-Modells '{NER_MODEL_NAME_DE}': {e}")
+
+        if LEMMATIZATION_ENABLED and nlp_lemmatizer_de is None:
+            try:
+                logging.info(f"Lade deutsches Lemmatisierungsmodell: {LEMMATIZATION_MODEL_NAME_DE} (spaCy)...")
+                try:
+                    nlp_lemmatizer_de = spacy.load(LEMMATIZATION_MODEL_NAME_DE)
+                except OSError:
+                    logging.warning(f"spaCy Modell '{LEMMATIZATION_MODEL_NAME_DE}' nicht gefunden. Versuche es herunterzuladen...")
+                    spacy.cli.download(LEMMATIZATION_MODEL_NAME_DE)
+                    nlp_lemmatizer_de = spacy.load(LEMMATIZATION_MODEL_NAME_DE)
+                logging.info("Deutsches Lemmatisierungsmodell erfolgreich geladen.")
+            except Exception as e:
+                logging.error(f"Fehler beim Laden/Herunterladen des deutschen Lemmatisierungsmodells '{LEMMATIZATION_MODEL_NAME_DE}': {e}")
+
+    elif lang == "en":
+        if ner_pipeline_en is None:
+            try:
+                logging.info(f"Lade englisches NER-Modell: {NER_MODEL_NAME_EN}...")
+                tokenizer_en = AutoTokenizer.from_pretrained(NER_MODEL_NAME_EN)
+                model_en = AutoModelForTokenClassification.from_pretrained(NER_MODEL_NAME_EN)
+                ner_pipeline_en = pipeline(
+                    "ner",
+                    model=model_en,
+                    tokenizer=tokenizer_en,
+                    aggregation_strategy="simple"
+                )
+                logging.info("Englisches NER-Modell erfolgreich geladen.")
+            except Exception as e:
+                logging.error(f"Fehler beim Laden des englischen NER-Modells '{NER_MODEL_NAME_EN}': {e}")
+
+        if LEMMATIZATION_ENABLED and nlp_lemmatizer_en is None:
+            try:
+                logging.info(f"Lade englisches Lemmatisierungsmodell: {LEMMATIZATION_MODEL_NAME_EN} (spaCy)...")
+                try:
+                    nlp_lemmatizer_en = spacy.load(LEMMATIZATION_MODEL_NAME_EN)
+                except OSError:
+                    logging.warning(f"spaCy Modell '{LEMMATIZATION_MODEL_NAME_EN}' nicht gefunden. Versuche es herunterzuladen...")
+                    spacy.cli.download(LEMMATIZATION_MODEL_NAME_EN)
+                    nlp_lemmatizer_en = spacy.load(LEMMATIZATION_MODEL_NAME_EN)
+                logging.info("Englisches Lemmatisierungsmodell erfolgreich geladen.")
+            except Exception as e:
+                logging.error(f"Fehler beim Laden/Herunterladen des englischen Lemmatisierungsmodells '{LEMMATIZATION_MODEL_NAME_EN}': {e}")
+
+# Lade Modelle für beide Sprachen beim Start des Dienstes vorab
+load_models_for_language("de")
+load_models_for_language("en")
+
+
+class TextProcessPayload(BaseModel):
     text: str
+    language: Optional[str] = None # Neues Feld für die erkannte Sprache
 
 @app.post("/process/")
-async def process_text(payload: TextPayload):
-    if ner_pipeline is None:
-        # Falls das NER-Modell beim Start nicht geladen werden konnte
-        raise HTTPException(status_code=503, detail="NER-Modell konnte nicht geladen werden, Dienst nicht verfügbar.")
-
+async def process_text(payload: TextProcessPayload):
     text = payload.text
-    logging.info(f"Empfange Text zur Verarbeitung (Länge: {len(text)} Zeichen).")
+    language = payload.language if payload.language else "de" # Standard auf Deutsch, falls nicht angegeben
+
+    current_ner_pipeline = None
+    current_lemmatizer = None
+
+    if language == "en":
+        current_ner_pipeline = ner_pipeline_en
+        current_lemmatizer = nlp_lemmatizer_en
+        logging.info(f"Verwende englische Modelle für die Verarbeitung (Länge: {len(text)} Zeichen).")
+    else: # Default or "de"
+        current_ner_pipeline = ner_pipeline_de
+        current_lemmatizer = nlp_lemmatizer_de
+        logging.info(f"Verwende deutsche Modelle für die Verarbeitung (Länge: {len(text)} Zeichen).")
+
+    if current_ner_pipeline is None:
+        raise HTTPException(status_code=503, detail=f"NER-Modell für Sprache '{language}' konnte nicht geladen werden, Dienst nicht verfügbar.")
 
     # --- NER-Verarbeitung ---
     ner_results = []
     try:
-        entities = ner_pipeline(text)
-        # Sicherstellen, dass die Ausgabe für Entities korrekt ist, auch wenn 'word' oder 'entity_group' fehlen
+        entities = current_ner_pipeline(text)
         ner_results = [{"text": ent.get('word', ''), "label": ent.get('entity_group', '')} for ent in entities]
-        logging.info(f"NER: {len(ner_results)} Entitäten gefunden.")
+        logging.info(f"NER: {len(ner_results)} Entitäten gefunden für Sprache '{language}'.")
     except Exception as e:
-        logging.error(f"Fehler bei der NER-Verarbeitung: {e}")
-        ner_results = [] # Gib leere Liste bei Fehler zurück
+        logging.error(f"Fehler bei der NER-Verarbeitung für Sprache '{language}': {e}")
+        ner_results = []
 
     # --- Lemmatisierung ---
     lemmas_results = []
-    if LEMMATIZATION_ENABLED and nlp_lemmatizer:
+    if LEMMATIZATION_ENABLED and current_lemmatizer:
         try:
-            doc = nlp_lemmatizer(text)
-            # Sicherstellen, dass die Ausgabe für Lemmata korrekt ist
+            doc = current_lemmatizer(text)
             lemmas_results = [{"text": token.text, "lemma": token.lemma_} for token in doc]
-            logging.info(f"Lemmatisierung: {len(lemmas_results)} Lemmata generiert.")
+            logging.info(f"Lemmatisierung: {len(lemmas_results)} Lemmata generiert für Sprache '{language}'.")
         except Exception as e:
-            logging.error(f"Fehler bei der Lemmatisierung: {e}")
+            logging.error(f"Fehler bei der Lemmatisierung für Sprache '{language}': {e}")
             lemmas_results = []
     elif LEMMATIZATION_ENABLED:
-        logging.warning("Lemmatisierung ist in der Konfiguration aktiviert, aber das spaCy-Modell konnte nicht geladen werden. Keine Lemmata generiert.")
+        logging.warning(f"Lemmatisierung ist aktiviert, aber das spaCy-Modell für Sprache '{language}' konnte nicht geladen werden. Keine Lemmata generiert.")
 
     return {
         "entities": ner_results,
-        "lemmas": lemmas_results
+        "lemmas": lemmas_results,
+        "processed_language": language # Fügen Sie die tatsächlich verwendete Sprache hinzu
     }
 
 # Um diesen Dienst zu starten:

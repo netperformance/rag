@@ -1,15 +1,22 @@
 {
   "nlp_model_config": {
-    "ner_model_name": "domischwimmbeck/bert-base-german-cased-fine-tuned-ner",
-    "lemmatization_enabled": true,
-    "lemmatization_model_name": "de_core_news_sm"
+    "ner_model_name_de": "domischwimmbeck/bert-base-german-cased-fine-tuned-ner",
+    "lemmatization_model_name_de": "de_core_news_sm",
+    "ner_model_name_en": "dslim/bert-base-NER",
+    "lemmatization_model_name_en": "en_core_web_sm",
+    "lemmatization_enabled": true
   },
   "service_urls": {
     "structuring_service": "http://127.0.0.1:8001/structure-pdf/",
-    "nlp_service": "http://127.0.0.1:8002/process/"
+    "nlp_service": "http://127.0.0.1:8002/process/",
+    "language_detection_service": "http://127.0.0.1:8000/detect-language"
   },
   "orchestrator_config": {
     "pdf_file_to_check": "test_oc.pdf",
     "log_file_path": "logging.txt"
+  },
+  "logging_config": {
+    "enabled": true,
+    "level": "INFO"
   }
 }

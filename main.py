@@ -5,9 +5,10 @@ import logging
 import json
 import os
 import sys
+from langdetect import detect, LangDetectException
+from typing import Optional # NEU: Diesen Import hinzufügen!
 
 # Helper function to deep merge dictionaries (required for nested configs)
-# Diese Funktion muss VOR ihrer ersten Verwendung definiert werden.
 def deep_update(base_dict, update_dict):
     for key, value in update_dict.items():
         if isinstance(value, dict) and key in base_dict and isinstance(base_dict[key], dict):
@@ -18,24 +19,34 @@ def deep_update(base_dict, update_dict):
 # --- Configuration Loading ---
 CONFIG_FILE = "config.json"
 DEFAULT_CONFIG = {
+    "nlp_model_config": {
+        "ner_model_name_de": "domischwimmbeck/bert-base-german-cased-fine-tuned-ner",
+        "lemmatization_model_name_de": "de_core_news_sm",
+        "ner_model_name_en": "dslim/bert-base-NER",
+        "lemmatization_model_name_en": "en_core_web_sm",
+        "lemmatization_enabled": True
+    },
     "service_urls": {
         "structuring_service": "http://127.0.0.1:8001/structure-pdf/",
-        "nlp_service": "http://127.0.0.1:8002/process/"
+        "nlp_service": "http://127.0.0.1:8002/process/",
+        "language_detection_service": "http://127.0.0.1:8000/detect-language"
     },
     "orchestrator_config": {
         "pdf_file_to_check": "test_oc.pdf",
         "log_file_path": "logging.txt"
+    },
+    "logging_config": { # Standard-Logging-Konfiguration
+        "enabled": True,
+        "level": "INFO"
     }
 }
 
-config = DEFAULT_CONFIG # Start with default values
+config = DEFAULT_CONFIG
 
 try:
     with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
         loaded_config = json.load(f)
-        # Update default config with loaded values
-        # This allows partial configurations in the file
-        deep_update(config, loaded_config) # Call to deep_update
+        deep_update(config, loaded_config)
     logging.info(f"Konfiguration aus '{CONFIG_FILE}' erfolgreich geladen.")
 except FileNotFoundError:
     logging.warning(f"Konfigurationsdatei '{CONFIG_FILE}' nicht gefunden. Verwende Standardwerte.")
@@ -44,18 +55,41 @@ except json.JSONDecodeError:
 except Exception as e:
     logging.error(f"Unerwarteter Fehler beim Laden der Konfiguration: {e}. Verwende Standardwerte.")
 
-# Extract configuration values
+# Konfigurationswerte extrahieren
 STRUCTURING_SERVICE_URL = config["service_urls"]["structuring_service"]
 NLP_SERVICE_URL = config["service_urls"]["nlp_service"]
 PDF_FILE_TO_CHECK = config["orchestrator_config"]["pdf_file_to_check"]
 LOG_FILE_PATH = config["orchestrator_config"]["log_file_path"]
 
-# --- Setup logging ---
-logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+# Logging-Konfiguration extrahieren
+LOGGING_ENABLED = config["logging_config"]["enabled"]
+LOGGING_LEVEL_STR = config["logging_config"]["level"].upper() # Stellen Sie sicher, dass es Großbuchstaben sind
+
+# Das Logging-Level-Mapping
+LOGGING_LEVELS = {
+    "DEBUG": logging.DEBUG,
+    "INFO": logging.INFO,
+    "WARNING": logging.WARNING,
+    "ERROR": logging.ERROR,
+    "CRITICAL": logging.CRITICAL
+}
+
+# Bestimmen Sie das tatsächliche Logging-Level
+if LOGGING_ENABLED:
+    log_level = LOGGING_LEVELS.get(LOGGING_LEVEL_STR, logging.INFO) # Standardmäßig INFO, falls ungültig
+else:
+    log_level = logging.CRITICAL # Setzt das Level auf CRITICAL, um andere Log-Nachrichten zu unterdrücken
+
+# --- Setup Logging ---
+# Löschen Sie alle vorhandenen Handler, um doppelte Ausgaben zu vermeiden, falls logging.basicConfig mehrfach aufgerufen wird
+for handler in logging.root.handlers[:]:
+    logging.root.removeHandler(handler)
+logging.basicConfig(level=log_level, format='%(levelname)s: %(message)s')
+
 
 def get_structured_data_from_service(file_path: str):
     """Sends a PDF file to the structuring service and returns the structured data."""
-    logging.info(f"Sending '{file_path}' to the structuring service at {STRUCTURING_SERVICE_URL}")
+    logging.info(f"Sende '{file_path}' an den Strukturierungsdienst unter {STRUCTURING_SERVICE_URL}")
     try:
         with open(file_path, "rb") as f:
             files = {'file': (os.path.basename(file_path), f, 'application/pdf')}
@@ -63,89 +97,102 @@ def get_structured_data_from_service(file_path: str):
             response.raise_for_status()
             return response.json()
     except Exception as e:
-        logging.error(f"Could not connect to structuring service: {e}")
+        logging.error(f"Verbindung zum Strukturierungsdienst fehlgeschlagen: {e}")
         return [{"error": "Structuring service unavailable"}]
 
-def process_text_with_nlp_service(text: str):
-    """Sends a block of text to the NLP service."""
-    logging.info("Sending text to NLP service for processing...")
+def detect_text_language(text: str) -> str:
+    """Erkennt die Sprache des gegebenen Textes."""
     try:
-        response = requests.post(NLP_SERVICE_URL, json={"text": text}, timeout=120)
+        language = detect(text)
+        logging.info(f"Sprache des Textes erkannt: {language}")
+        return language
+    except LangDetectException:
+        logging.warning("Sprache konnte nicht zuverlässig erkannt werden, standardmäßig auf Deutsch gesetzt.")
+        return "de" # Standard auf Deutsch
+    except Exception as e:
+        logging.error(f"Unerwarteter Fehler bei der Spracherkennung: {e}")
+        return "de" # Standard auf Deutsch im Fehlerfall
+
+def process_text_with_nlp_service(text: str, language: Optional[str] = None):
+    """Sendet einen Textblock an den NLP-Dienst zur Verarbeitung mit optionaler Sprachangabe."""
+    logging.info(f"Sende Text an NLP-Dienst zur Verarbeitung (Sprache: {language if language else 'Autoerkennung'})...")
+    try:
+        payload = {"text": text}
+        if language:
+            payload["language"] = language
+        
+        response = requests.post(NLP_SERVICE_URL, json=payload, timeout=120)
         response.raise_for_status()
         return response.json()
     except Exception as e:
-        logging.error(f"Could not connect to NLP service: {e}")
+        logging.error(f"Verbindung zum NLP-Dienst fehlgeschlagen: {e}")
         return {"error": "NLP service unavailable"}
 
 # --- Main Execution Logic ---
 if __name__ == '__main__':
-    # Open the log file in write mode ('w') with UTF-8 encoding
-    # Existing file will be cleared and recreated
     with open(LOG_FILE_PATH, 'w', encoding='utf-8') as log_file:
-        # Save original stdout and redirect to the file
         original_stdout = sys.stdout
         sys.stdout = log_file
 
         try:
             print("\n" + "="*10 + " PIPELINE START " + "="*10)
 
-            # 1. Get structured data from the PDF
-            print("\n--- STEP 1: PDF Structuring ---")
+            print("\n--- SCHRITT 1: PDF Strukturierung ---")
             structured_elements = get_structured_data_from_service(PDF_FILE_TO_CHECK)
 
             if structured_elements and "error" not in structured_elements[0]:
-                print("\n--- Output of Step 1 (Full Structured Elements) ---")
+                print("\n--- Ausgabe von SCHRITT 1 (Vollständige strukturierte Elemente) ---")
                 print(json.dumps(structured_elements, indent=2, ensure_ascii=False))
-                print(f"Total structured elements: {len(structured_elements)}")
+                print(f"Gesamtzahl strukturierter Elemente: {len(structured_elements)}")
                 print("-" * 40)
 
-                # 2. Filter and combine relevant text blocks for NLP analysis
-                print("\n--- STEP 2: Text Extraction and Combination for NLP ---")
+                print("\n--- SCHRITT 2: Textextraktion und Kombination für NLP-Analyse ---")
                 text_to_process = ""
                 for element in structured_elements:
-                    # Removed hardcoded check for 'type'
-                    # Assuming relevant text types are still 'NarrativeText', 'UncategorizedText', 'ListItem', 'Title'
-                    # If this list should also be configurable, it needs to be added to config.json
                     if element.get("type") in ["NarrativeText", "UncategorizedText", "ListItem", "Title"]:
                         text_to_process += element.get("text", "") + "\n\n"
                 
                 if text_to_process.strip():
-                    print("\n--- STEP 3: NLP Processing ---")
-                    nlp_results = process_text_with_nlp_service(text_to_process)
+                    detected_language = detect_text_language(text_to_process)
+                    print(f"Erkannte Sprache für NLP-Verarbeitung: {detected_language}")
+
+                    print("\n--- SCHRITT 3: NLP-Verarbeitung ---")
+                    nlp_results = process_text_with_nlp_service(text_to_process, detected_language)
                     
                     if nlp_results and "error" not in nlp_results:
-                        print("\n--- Output of Step 3 (NLP Results) ---")
-                        print("\n--- 3.1: Named Entities (NER) ---")
+                        print("\n--- Ausgabe von SCHRITT 3 (NLP-Ergebnisse) ---")
+                        print(f"Verarbeitete Sprache vom NLP-Dienst: {nlp_results.get('processed_language', 'Unbekannt')}")
+                        print("\n--- 3.1: Benannte Entitäten (NER) ---")
                         entities = nlp_results.get("entities", [])
                         if entities:
                             for ent in entities:
                                 print(f"- Text: '{ent.get('text', '')}',  Label: {ent.get('label', '')}")
                         else:
-                            print("No named entities were found in the processed text.")
+                            print("Keine benannten Entitäten im verarbeiteten Text gefunden.")
 
-                        print("\n--- 3.2: Lemmatization (Full List of Tokens) ---")
+                        print("\n--- 3.2: Lemmatisierung (Vollständige Liste der Token) ---")
                         lemmas = nlp_results.get("lemmas", [])
                         if lemmas:
                             print(json.dumps(lemmas, indent=2, ensure_ascii=False))
-                            print(f"Total lemmas generated: {len(lemmas)}")
+                            print(f"Gesamtzahl generierter Lemmata: {len(lemmas)}")
                         else:
-                            print("No lemmas were generated.")
+                            print("Keine Lemmata generiert.")
                         print("-" * 40)
 
                     else:
-                        print("\n--- Error from NLP Service in Step 3 ---")
+                        print("\n--- Fehler vom NLP-Dienst in SCHRITT 3 ---")
                         print(json.dumps(nlp_results, indent=2, ensure_ascii=False))
                         print("-" * 40)
                 else:
-                    print("\n--- No processable text found in the document after structuring (Step 2 failed) ---")
+                    print("\n--- Kein verarbeitbarer Text im Dokument nach der Strukturierung gefunden (SCHRITT 2 fehlgeschlagen) ---")
                     print("-" * 40)
             else:
-                print("\n--- Error from Structuring Service in Step 1 ---")
+                print("\n--- Fehler vom Strukturierungsdienst in SCHRITT 1 ---")
                 print(json.dumps(structured_elements, indent=2, ensure_ascii=False))
                 print("-" * 40)
             
-            print("\n" + "="*10 + " PIPELINE END " + "="*10)
+            print("\n" + "="*10 + " PIPELINE ENDE " + "="*10)
 
         finally:
             sys.stdout = original_stdout
-            logging.info(f"Full pipeline output written to '{LOG_FILE_PATH}'")
+            logging.info(f"Vollständige Pipeline-Ausgabe in '{LOG_FILE_PATH}' geschrieben")
