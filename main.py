@@ -47,18 +47,45 @@ if __name__ == '__main__':
         # 2. Filter and combine relevant text blocks for NLP analysis
         text_to_process = ""
         for element in structured_elements:
-            # We only want to process actual text, not titles or tables for now
-            if element.get("type") in ["NarrativeText", "UncategorizedText", "ListItem"]:
+            if element.get("type") in ["NarrativeText", "UncategorizedText", "ListItem", "Title"]:
                 text_to_process += element.get("text", "") + "\n\n"
         
         if text_to_process.strip():
             # 3. Send the combined text to the new NLP service
             nlp_results = process_text_with_nlp_service(text_to_process)
             
-            print("--- NLP Service Response ---")
-            print(json.dumps(nlp_results, indent=2, ensure_ascii=False))
+            # --- NEW AND IMPROVED OUTPUT HANDLING ---
+            if nlp_results and "error" not in nlp_results:
+                print("\n" + "="*20 + " NLP RESULTS " + "="*20)
+
+                # --- Print Entities ---
+                print("\n--- 1. Named Entities (NER) ---")
+                entities = nlp_results.get("entities", [])
+                if entities:
+                    # Print each entity on its own line for clarity
+                    for ent in entities:
+                        print(f"- Text: '{ent['text']}',  Label: {ent['label']}")
+                else:
+                    print("No named entities were found in the processed text.")
+
+                # --- Print Lemmas (shortened) ---
+                print("\n--- 2. Lemmatization (First 20 Tokens) ---")
+                lemmas = nlp_results.get("lemmas", [])
+                if lemmas:
+                    # To avoid flooding the screen, we only show a preview
+                    print(json.dumps(lemmas[:20], indent=2, ensure_ascii=False))
+                    if len(lemmas) > 20:
+                        print(f"  ... and {len(lemmas) - 20} more lemmas.")
+                else:
+                    print("No lemmas were generated.")
+
+                print("\n" + "="*53)
+
+            else:
+                print("--- Error from NLP Service ---")
+                print(json.dumps(nlp_results, indent=2, ensure_ascii=False))
         else:
-            print("No processable text found in the document.")
+            print("No processable text found in the document after structuring.")
     else:
-        print("--- Structuring Service Response ---")
+        print("--- Error from Structuring Service ---")
         print(json.dumps(structured_elements, indent=2, ensure_ascii=False))
