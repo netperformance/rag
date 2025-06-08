@@ -29,3 +29,12 @@ unstructured[local-inference]
 pytesseract
 # Installation: https://digi.bib.uni-mannheim.de/tesseract/
 # Umgebungsvariable: TESSDATA_PREFIX = C:\Users\info\AppData\Local\Programs\Tesseract-OCR
+
+# For advanced NLP tasks and models
+transformers
+
+# Sentencepiece is often required by tokenizers
+sentencepiece
+
+# PyTorch is the deep learning backend
+torch

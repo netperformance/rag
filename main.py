@@ -1,61 +1,64 @@
-# --- main.py ---
+# --- main.py (Orchestrator) ---
 
 import requests
 import logging
-import json # For pretty-printing the result
+import json
 import os
 
 # --- Configuration ---
-# We now have two different services running on different ports
-LANGUAGE_SERVICE_URL = "http://127.0.0.1:8000/detect-language"
-STRUCTURING_SERVICE_URL = "http://127.0.0.1:8001/structure-pdf/" # New service on a new port
-PDF_FILE_TO_CHECK = "test_oc.pdf" # Make sure this file exists
+STRUCTURING_SERVICE_URL = "http://127.0.0.1:8001/structure-pdf/"
+NLP_SERVICE_URL = "http://127.0.0.1:8002/process/" # New NLP Service URL
+PDF_FILE_TO_CHECK = "test_oc.pdf"
 
-# --- Setup basic logging ---
+# ... (Setup logging, get_structured_data_from_service function remains the same) ...
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
-
-def get_language_from_service(file_path: str):
-    """Sends a file to the language detection service and gets the result."""
-    try:
-        with open(file_path, "rb") as f:
-            files = {'file': (os.path.basename(file_path), f, 'application/pdf')}
-            response = requests.post(LANGUAGE_SERVICE_URL, files=files, timeout=60)
-            response.raise_for_status()
-            return response.json()
-    except requests.exceptions.RequestException as e:
-        logging.error(f"Could not connect to language service: {e}")
-        return {"status": "error", "error_message": "Service unavailable"}
-    except FileNotFoundError:
-        logging.error(f"Local file not found: {file_path}")
-        return {"status": "error", "error_message": "Local file not found"}
-
-
 def get_structured_data_from_service(file_path: str):
-    """
-    Sends a file to the new structuring service and gets the result.
-    """
+    # This function remains unchanged
+    # ...
     logging.info(f"Sending '{file_path}' to the structuring service at {STRUCTURING_SERVICE_URL}")
     try:
         with open(file_path, "rb") as f:
-            # The 'file' key must match the parameter name in the FastAPI endpoint
             files = {'file': (os.path.basename(file_path), f, 'application/pdf')}
-            # This request might take longer for complex documents
-            response = requests.post(STRUCTURING_SERVICE_URL, files=files, timeout=300) # Increased timeout
+            response = requests.post(STRUCTURING_SERVICE_URL, files=files, timeout=300)
             response.raise_for_status()
-            return response.json() # The result is a list of dictionaries
-    except requests.exceptions.RequestException as e:
+            return response.json()
+    except Exception as e:
         logging.error(f"Could not connect to structuring service: {e}")
         return [{"error": "Structuring service unavailable"}]
-    except FileNotFoundError:
-        logging.error(f"Local file not found: {file_path}")
-        return [{"error": "Local file not found"}]
 
+def process_text_with_nlp_service(text: str):
+    """Sends a block of text to the NLP service."""
+    logging.info("Sending text to NLP service for processing...")
+    try:
+        response = requests.post(NLP_SERVICE_URL, json={"text": text}, timeout=120)
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        logging.error(f"Could not connect to NLP service: {e}")
+        return {"error": "NLP service unavailable"}
 
-# --- Usage ---
+# --- Main Execution Logic ---
 if __name__ == '__main__':
-    # Call the new structuring service
-    structured_result = get_structured_data_from_service(PDF_FILE_TO_CHECK)
-    print("--- Structuring Service Response ---")
-    # Pretty-print the JSON response to make it readable
-    print(json.dumps(structured_result, indent=2, ensure_ascii=False))
+    # 1. Get structured data from the PDF
+    structured_elements = get_structured_data_from_service(PDF_FILE_TO_CHECK)
+
+    if structured_elements and "error" not in structured_elements[0]:
+        # 2. Filter and combine relevant text blocks for NLP analysis
+        text_to_process = ""
+        for element in structured_elements:
+            # We only want to process actual text, not titles or tables for now
+            if element.get("type") in ["NarrativeText", "UncategorizedText", "ListItem"]:
+                text_to_process += element.get("text", "") + "\n\n"
+        
+        if text_to_process.strip():
+            # 3. Send the combined text to the new NLP service
+            nlp_results = process_text_with_nlp_service(text_to_process)
+            
+            print("--- NLP Service Response ---")
+            print(json.dumps(nlp_results, indent=2, ensure_ascii=False))
+        else:
+            print("No processable text found in the document.")
+    else:
+        print("--- Structuring Service Response ---")
+        print(json.dumps(structured_elements, indent=2, ensure_ascii=False))
