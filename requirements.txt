@@ -1,3 +1,5 @@
+# Requirements for the PDF processing and NLP API
+
 # Web Framework to create the API
 fastapi
 
@@ -17,6 +19,13 @@ langdetect
 requests
 
 # For NLP tasks
-# Model Installation: python -m spacy download de_dep_news_trf
+# Installation: python -m spacy download de_dep_news_trf
 spacy
 
+# Document Structuring Library (with all local PDF processing dependencies)
+unstructured[local-inference]
+
+# tesseract for OCR
+pytesseract
+# Installation: https://digi.bib.uni-mannheim.de/tesseract/
+# Umgebungsvariable: TESSDATA_PREFIX = C:\Users\info\AppData\Local\Programs\Tesseract-OCR

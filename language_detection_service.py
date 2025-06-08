@@ -1,5 +1,6 @@
 # --- language_detection_service.py ---
 # This file contains the complete, self-contained language detection service.
+# uvicorn language_detection_service:app --reload --port 8000
 
 # --- Imports ---
 import logging
