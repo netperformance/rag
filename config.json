@@ -1,0 +1,11 @@
+{
+  "nlp_model_config": {
+    "ner_model_name": "domischwimmbeck/bert-base-german-cased-fine-tuned-ner",
+    "lemmatization_enabled": true,
+    "lemmatization_model_name": "de_core_news_sm"
+  },
+  "service_urls": {
+    "structuring_service": "http://127.0.0.1:8001/structure-pdf/",
+    "nlp_service": "http://127.0.0.1:8002/process/"
+  }
+}
