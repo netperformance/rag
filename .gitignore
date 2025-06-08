@@ -123,3 +123,6 @@ logs/
 # Local data or test files you don't want in the repository
 local_data/
 test_oc.pdf
+tesseract-ocr-w64-setup-v5.3.0.20221214.exe
+poppler-24.08.0/
+logging.txt
