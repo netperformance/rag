@@ -6,7 +6,7 @@ import json
 import os
 import sys
 from langdetect import detect, LangDetectException
-from typing import Optional # NEU: Diesen Import hinzufügen!
+from typing import Optional # Dies ist wichtig und sollte am Anfang der Datei sein
 
 # Helper function to deep merge dictionaries (required for nested configs)
 def deep_update(base_dict, update_dict):
@@ -29,15 +29,20 @@ DEFAULT_CONFIG = {
     "service_urls": {
         "structuring_service": "http://127.0.0.1:8001/structure-pdf/",
         "nlp_service": "http://127.0.0.1:8002/process/",
-        "language_detection_service": "http://127.0.0.1:8000/detect-language"
+        "language_detection_service": "http://127.0.0.1:8000/detect-language",
+        "deepseek_enrichment_service": "http://127.0.0.1:8003/enrich-text/" # Neue URL
     },
     "orchestrator_config": {
         "pdf_file_to_check": "test_oc.pdf",
         "log_file_path": "logging.txt"
     },
     "logging_config": { # Standard-Logging-Konfiguration
-        "enabled": True,
+        "enabled": True, # Korrigiert: 'true' zu 'True'
         "level": "INFO"
+    },
+    "ollama_config": { # Hinzugefügt, da config von hier gelesen wird
+        "ollama_base_url": "http://localhost:11434",
+        "deepseek_model_name": "deepseek-coder-v2:latest"
     }
 }
 
@@ -58,6 +63,7 @@ except Exception as e:
 # Konfigurationswerte extrahieren
 STRUCTURING_SERVICE_URL = config["service_urls"]["structuring_service"]
 NLP_SERVICE_URL = config["service_urls"]["nlp_service"]
+DEEPSEEK_ENRICHMENT_SERVICE_URL = config["service_urls"]["deepseek_enrichment_service"] # NEU
 PDF_FILE_TO_CHECK = config["orchestrator_config"]["pdf_file_to_check"]
 LOG_FILE_PATH = config["orchestrator_config"]["log_file_path"]
 
@@ -128,6 +134,20 @@ def process_text_with_nlp_service(text: str, language: Optional[str] = None):
         logging.error(f"Verbindung zum NLP-Dienst fehlgeschlagen: {e}")
         return {"error": "NLP service unavailable"}
 
+# NEUE FUNKTION: DeepSeek Anreicherungsdienst aufrufen
+def call_deepseek_enrichment_service(text: str, task: str = "chunk_and_summarize"):
+    """Ruft den DeepSeek Anreicherungsdienst auf."""
+    logging.info(f"Sende Text zur DeepSeek-Anreicherung (Task: {task})...")
+    payload = {"text": text, "task": task}
+    try:
+        response = requests.post(DEEPSEEK_ENRICHMENT_SERVICE_URL, json=payload, timeout=600) # Längeres Timeout
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Fehler bei der Verbindung zum DeepSeek Anreicherungsdienst: {e}")
+        return {"error": "DeepSeek enrichment service unavailable"}
+
+
 # --- Main Execution Logic ---
 if __name__ == '__main__':
     with open(LOG_FILE_PATH, 'w', encoding='utf-8') as log_file:
@@ -140,7 +160,7 @@ if __name__ == '__main__':
             print("\n--- SCHRITT 1: PDF Strukturierung ---")
             structured_elements = get_structured_data_from_service(PDF_FILE_TO_CHECK)
 
-            if structured_elements and "error" not in structured_elements[0]:
+            if structured_elements and not ("error" in structured_elements[0] if structured_elements else False): # Robusterer Check
                 print("\n--- Ausgabe von SCHRITT 1 (Vollständige strukturierte Elemente) ---")
                 print(json.dumps(structured_elements, indent=2, ensure_ascii=False))
                 print(f"Gesamtzahl strukturierter Elemente: {len(structured_elements)}")
@@ -156,7 +176,7 @@ if __name__ == '__main__':
                     detected_language = detect_text_language(text_to_process)
                     print(f"Erkannte Sprache für NLP-Verarbeitung: {detected_language}")
 
-                    print("\n--- SCHRITT 3: NLP-Verarbeitung ---")
+                    print("\n--- SCHRITT 3: Basis-NLP-Verarbeitung (spaCy/HuggingFace NER) ---")
                     nlp_results = process_text_with_nlp_service(text_to_process, detected_language)
                     
                     if nlp_results and "error" not in nlp_results:
@@ -178,6 +198,30 @@ if __name__ == '__main__':
                         else:
                             print("Keine Lemmata generiert.")
                         print("-" * 40)
+
+                        # NEU: SCHRITT 4: Intelligentes Chunking & Anreicherung mit DeepSeek
+                        print("\n--- SCHRITT 4: Intelligentes Chunking & Anreicherung mit DeepSeek ---")
+                        deepseek_enrichment_results = call_deepseek_enrichment_service(text_to_process, task="chunk_and_summarize")
+                        
+                        if deepseek_enrichment_results and deepseek_enrichment_results.get("status") == "success":
+                            print("\n--- Ausgabe von SCHRITT 4 (DeepSeek Anreicherungsergebnisse) ---")
+                            # Zeige die ersten 2 angereicherten Chunks zur Überprüfung an
+                            print(json.dumps(deepseek_enrichment_results["results"][:2] if deepseek_enrichment_results["results"] else [], indent=2, ensure_ascii=False))
+                            print(f"Gesamtzahl der von DeepSeek generierten Chunks: {len(deepseek_enrichment_results['results'])}")
+                            print("-" * 40)
+
+                            # HIER WÜRDE DER NÄCHSTE SCHRITT KOMMEN:
+                            # 5. Embedding-Generierung (mit einem spezialisierten Embedding-Modell)
+                            #    Loop durch deepseek_enrichment_results["results"]
+                            #    Für jeden 'original_chunk' (oder 'summary') das Embedding generieren
+                            # 6. Speicherung in der Vektordatenbank
+                            #    Speichere 'original_chunk', 'summary', 'keywords' und das Embedding
+                            #    (und alle Metadaten aus früheren Schritten wie NER-Entitäten, Sprache)
+
+                        else:
+                            print("\n--- Fehler/Warnung vom DeepSeek Anreicherungsdienst in SCHRITT 4 ---")
+                            print(json.dumps(deepseek_enrichment_results, indent=2, ensure_ascii=False))
+                            print("-" * 40)
 
                     else:
                         print("\n--- Fehler vom NLP-Dienst in SCHRITT 3 ---")

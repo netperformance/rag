@@ -9,7 +9,8 @@
   "service_urls": {
     "structuring_service": "http://127.0.0.1:8001/structure-pdf/",
     "nlp_service": "http://127.0.0.1:8002/process/",
-    "language_detection_service": "http://127.0.0.1:8000/detect-language"
+    "language_detection_service": "http://127.0.0.1:8000/detect-language",
+    "deepseek_enrichment_service": "http://127.0.0.1:8003/enrich-text/"
   },
   "orchestrator_config": {
     "pdf_file_to_check": "test_oc.pdf",
@@ -18,5 +19,9 @@
   "logging_config": {
     "enabled": true,
     "level": "INFO"
+  },
+  "ollama_config": {
+    "ollama_base_url": "http://localhost:11434",
+    "deepseek_model_name": "deepseek-coder-v2:latest"
   }
 }
