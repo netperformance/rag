@@ -1,0 +1,22 @@
+# Web Framework to create the API
+fastapi
+
+# ASGI server to run FastAPI
+uvicorn
+
+# Required by FastAPI for file uploads
+python-multipart
+
+# For PDF text extraction
+PyMuPDF
+
+# For language detection
+langdetect
+
+# For making HTTP requests to external services
+requests
+
+# For NLP tasks
+# Model Installation: python -m spacy download de_dep_news_trf
+spacy
+
