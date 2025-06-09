@@ -1,5 +1,5 @@
 # --- main.py (Orchestrator) ---
-# FINALE VERSION v3: Behält das optimierte Chunking bei und implementiert eine saubere, vollständige Protokollierung.
+# FINALE VERSION v4: Implementiert erweitertes Logging zur Anzeige von strukturierten Elementen und Chunks.
 
 import requests
 import logging
@@ -38,7 +38,6 @@ DEFAULT_CONFIG = {
     "orchestrator_config": {
         "pdf_file_to_check": "test_oc.pdf",
         "log_file_path": "logging.txt",
-        # Optimierte Chunk-Größen für eine gute RAG-Qualität
         "chunk_size": 450,
         "chunk_overlap": 100
     },
@@ -69,7 +68,6 @@ try:
             loaded_config = json.load(f)
             deep_update(config, loaded_config)
 except Exception as e:
-    # Hier verwenden wir print, da das Logging erst danach konfiguriert wird.
     print(f"Fehler beim Laden der Konfiguration: {e}. Verwende Standardwerte.")
 
 # Konfigurationswerte extrahieren
@@ -85,11 +83,10 @@ CHUNK_OVERLAP = config["orchestrator_config"]["chunk_overlap"]
 PROMPT_SUMMARY_KEYWORDS = config["deepseek_prompts"]["chunk_summary_keywords_prompt"]
 PROMPT_QUESTIONS = config["deepseek_prompts"]["chunk_questions_prompt"]
 
-# KORRIGIERT: Saubere Logging-Konfiguration, die alles in die Datei schreibt.
+# Saubere Logging-Konfiguration
 log_level_str = config["logging_config"]["level"].upper()
 log_level = getattr(logging, log_level_str, logging.INFO)
 
-# Entferne alle vorhandenen Handler, um Doppel-Logging zu vermeiden
 for handler in logging.root.handlers[:]:
     logging.root.removeHandler(handler)
 
@@ -98,7 +95,7 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
         logging.FileHandler(LOG_FILE_PATH, mode='w', encoding='utf-8'),
-        logging.StreamHandler(sys.stdout)  # Damit Logs auch in der Konsole erscheinen
+        logging.StreamHandler(sys.stdout)
     ]
 )
 
@@ -186,13 +183,20 @@ if __name__ == '__main__':
         logging.info("\n" + "="*10 + " PIPELINE START " + "="*10)
 
         # SCHRITT 1 & 2: Strukturierung und Textextraktion
-        logging.info("\n--- SCHRITT 1 & 2: PDF Strukturierung und Textextraktion ---")
+        logging.info("\n--- SCHRITT 1: PDF Strukturierung ---")
         structured_elements = get_structured_data_from_service(PDF_FILE_TO_CHECK)
         if not (structured_elements and "error" not in structured_elements[0]):
             logging.error("\n--- FEHLER: Pipeline gestoppt wegen Fehler im Strukturierungsdienst. ---")
             logging.error(json.dumps(structured_elements, indent=2, ensure_ascii=False))
             sys.exit(1)
         
+        # NEU: Detailliertes Logging der strukturierten Elemente
+        logging.info("\n--- Ausgabe von SCHRITT 1 (Vollständige strukturierte Elemente) ---")
+        logging.info(json.dumps(structured_elements, indent=2, ensure_ascii=False))
+        logging.info(f"Gesamtzahl strukturierter Elemente: {len(structured_elements)}")
+        logging.info("-" * 40)
+        
+        logging.info("\n--- SCHRITT 2: Textextraktion ---")
         text_to_process = "".join(
             element.get("text", "") + "\n\n" 
             for element in structured_elements 
@@ -201,9 +205,10 @@ if __name__ == '__main__':
         if not text_to_process.strip():
             logging.error("\n--- FEHLER: Kein verarbeitbarer Text im Dokument gefunden. ---")
             sys.exit(1)
+        logging.info("Textextraktion erfolgreich abgeschlossen.")
 
         # SCHRITT 3: Basis-NLP-Verarbeitung (einmal für das ganze Dokument)
-        logging.info("\n--- SCHRITT 3: Basis-NLP-Verarbeitung (Gesamtdokument) ---")
+        logging.info("\n--- SCHRITT 3: NLP-Verarbeitung ---")
         detected_language = detect_text_language(text_to_process)
         nlp_results = process_text_with_nlp_service(text_to_process, detected_language)
         if not nlp_results or "error" in nlp_results:
@@ -213,7 +218,17 @@ if __name__ == '__main__':
         
         base_nlp_entities = nlp_results.get("entities", [])
         base_nlp_lemmas = nlp_results.get("lemmas", [])
-        logging.info(f"Basis-NLP abgeschlossen. {len(base_nlp_entities)} Entitäten und {len(base_nlp_lemmas)} Lemmata gefunden.")
+        
+        # NEU: Detailliertes Logging der NLP-Ergebnisse
+        logging.info("\n--- Ausgabe von SCHRITT 3 (NLP-Ergebnisse) ---")
+        logging.info(f"Verarbeitete Sprache vom NLP-Dienst: {nlp_results.get('processed_language', 'Unbekannt')}")
+        logging.info("\n--- 3.1: Benannte Entitäten (NER) ---")
+        for ent in base_nlp_entities:
+            logging.info(f"- Text: '{ent.get('text', '')}',  Label: {ent.get('label', '')}")
+        logging.info("\n--- 3.2: Lemmatisierung (Vollständige Liste der Token) ---")
+        logging.info(json.dumps(base_nlp_lemmas, indent=2, ensure_ascii=False))
+        logging.info(f"Gesamtzahl generierter Lemmata: {len(base_nlp_lemmas)}")
+        logging.info("-" * 40)
         
         # SCHRITT 4: Robustes Vor-Chunking mit RecursiveCharacterTextSplitter
         logging.info(f"\n--- SCHRITT 4: Robustes Vor-Chunking (Größe: {CHUNK_SIZE}, Überlappung: {CHUNK_OVERLAP}) ---")
@@ -221,22 +236,26 @@ if __name__ == '__main__':
         preliminary_chunks = text_splitter.split_text(text_to_process)
         logging.info(f"Dokument wurde in {len(preliminary_chunks)} vorläufige Chunks aufgeteilt.")
 
+        # NEU: Detailliertes Logging der erstellten Chunks
+        logging.info("\n--- Ausgabe von SCHRITT 4 (Erstellte Chunks) ---")
+        for i, chunk in enumerate(preliminary_chunks):
+            logging.info(f"\n----- Chunk {i+1} / {len(preliminary_chunks)} -----")
+            logging.info(chunk)
+            logging.info("--------------------")
+        
         # SCHRITT 5: Semantische Anreicherung für jeden einzelnen Chunk
         logging.info(f"\n--- SCHRITT 5: Starte Anreicherung für {len(preliminary_chunks)} Chunks mit DeepSeek ---")
         all_enriched_chunks = []
         for i, chunk_text in enumerate(preliminary_chunks):
             logging.info(f"Verarbeite Chunk {i + 1}/{len(preliminary_chunks)}...")
-
             current_chunk_data = {"original_chunk": chunk_text, "summary": "", "keywords": [], "questions": []}
             
-            # 5.1: Zusammenfassung & Keywords
             summary_prompt = f"{PROMPT_SUMMARY_KEYWORDS}\n\nText: {chunk_text}"
             summary_res = call_deepseek_enrichment_service(chunk_text, summary_prompt)
             if summary_res and summary_res.get("status") == "success" and isinstance(summary_res.get("results"), dict):
                 current_chunk_data["summary"] = summary_res["results"].get("summary", "")
                 current_chunk_data["keywords"] = summary_res["results"].get("keywords", [])
             
-            # 5.2: Fragen
             questions_prompt = f"{PROMPT_QUESTIONS}\n\nText: {chunk_text}"
             questions_res = call_deepseek_enrichment_service(chunk_text, questions_prompt)
             if questions_res and questions_res.get("status") == "success" and isinstance(questions_res.get("results"), list):
