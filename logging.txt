@@ -1,0 +1,3564 @@
+2025-06-09 18:37:08,147 - INFO - 
+========== PIPELINE START ==========
+2025-06-09 18:37:08,147 - INFO - 
+--- SCHRITT 1: PDF Strukturierung ---
+2025-06-09 18:37:08,148 - INFO - Sende 'test_oc.pdf' an den Strukturierungsdienst unter http://127.0.0.1:8001/structure-pdf/
+2025-06-09 18:37:15,461 - INFO - 
+--- Ausgabe von SCHRITT 1 (Vollständige strukturierte Elemente) ---
+2025-06-09 18:37:15,463 - INFO - [
+  {
+    "type": "Image",
+    "element_id": "ee32f2e288fd0a3142de20c2e4938323",
+    "text": "  ",
+    "metadata": {
+      "coordinates": {
+        "points": [
+          [
+            196.6071658333333,
+            70.67112916666645
+          ],
+          [
+            196.6071658333333,
+            157.33778888888864
+          ],
+          [
+            420.89192305555554,
+            157.33778888888864
+          ],
+          [
+            420.89192305555554,
+            70.67112916666645
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "NarrativeText",
+    "element_id": "7ecf678a2dc845798941d6b568296a14",
+    "text": "■■■ Digitale Service Manufaktur",
+    "metadata": {
+      "detection_class_prob": 0.3492773175239563,
+      "coordinates": {
+        "points": [
+          [
+            1036.9521484375,
+            130.3121795654297
+          ],
+          [
+            1036.9521484375,
+            158.32499999999987
+          ],
+          [
+            1422.25,
+            158.32499999999987
+          ],
+          [
+            1422.25,
+            130.3121795654297
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "Image",
+    "element_id": "2cb863761dca2fc7e0ffc0e7fc6657ee",
+    "text": "                        OPITZ CONSULTING UND STACKIT  ",
+    "metadata": {
+      "coordinates": {
+        "points": [
+          [
+            -5.000218611111111,
+            199.99665666666652
+          ],
+          [
+            -5.000218611111111,
+            888.1074411111108
+          ],
+          [
+            1692.9162941666668,
+            888.1074411111108
+          ],
+          [
+            1692.9162941666668,
+            199.99665666666652
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "Title",
+    "element_id": "1fc5c0f37359fa8e76ee6727e040692a",
+    "text": "OPITZ CONSULTING UND STACKIT WERDEN CLOUD-PARTNER",
+    "metadata": {
+      "detection_class_prob": 0.6857117414474487,
+      "coordinates": {
+        "points": [
+          [
+            197.0,
+            771.6636962890625
+          ],
+          [
+            197.0,
+            903.3959999999997
+          ],
+          [
+            1249.1890000000003,
+            903.3959999999997
+          ],
+          [
+            1249.1890000000003,
+            771.6636962890625
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "NarrativeText",
+    "element_id": "924bfe3864c1a1b7f108c882c22141e3",
+    "text": "MIT STACKIT holt sich OPITZ CONSULTING einen souveränen deutschen Cloud- Provider mit ins Boot – mit Rechenzentren in Deutschland und Österreich",
+    "metadata": {
+      "detection_class_prob": 0.8894028067588806,
+      "coordinates": {
+        "points": [
+          [
+            192.57095336914062,
+            932.173583984375
+          ],
+          [
+            192.57095336914062,
+            1014.2666666666665
+          ],
+          [
+            1392.389892578125,
+            1014.2666666666665
+          ],
+          [
+            1392.389892578125,
+            932.173583984375
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "1fc5c0f37359fa8e76ee6727e040692a",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "Title",
+    "element_id": "3a0fddbdb54e6739e528529101e38093",
+    "text": "ur STACKIT",
+    "metadata": {
+      "detection_class_prob": 0.3225748538970947,
+      "coordinates": {
+        "points": [
+          [
+            1068.1866455078125,
+            1077.1451416015625
+          ],
+          [
+            1068.1866455078125,
+            1141.0643310546875
+          ],
+          [
+            1386.6534423828125,
+            1141.0643310546875
+          ],
+          [
+            1386.6534423828125,
+            1077.1451416015625
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "NarrativeText",
+    "element_id": "879e201f1e771e37a155ec8d8842369e",
+    "text": "Gummersbach, 1. März 2024",
+    "metadata": {
+      "detection_class_prob": 0.7283265590667725,
+      "coordinates": {
+        "points": [
+          [
+            196.93223571777344,
+            1091.7415771484375
+          ],
+          [
+            196.93223571777344,
+            1122.4117431640625
+          ],
+          [
+            565.52,
+            1122.4117431640625
+          ],
+          [
+            565.52,
+            1091.7415771484375
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "3a0fddbdb54e6739e528529101e38093",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "NarrativeText",
+    "element_id": "d6557335bc9e1d5f3e2ac81c5eafbdec",
+    "text": "Seit dem 1. März 2024 bündeln OPITZ CONSULTING und STACKIT ihre Kräfte, um eine Allianz im Bereich Cloud-Infrastruktur und Cloud-Dienstleistungen zu schmieden. Diese Zusammenarbeit eröffnet den Kunden von OPITZ CONSULTING den Zugang zur STACKIT Cloud – einer deutschen, datensouveränen Cloud-Lösung, die eine leistungsstarke Alternative zu US-amerikanischen Hyperscalern darstellt. Mit der geballten Kraft von STACKIT's Cloud-Kompetenz und OPITZ CONSULTING's Expertise in der IT-Modernisierung sind Unternehmen und Organisationen nun bestens ausgestattet, um ihre IT-Landschaften zukunftssicher zu gestalten.",
+    "metadata": {
+      "detection_class_prob": 0.9516332745552063,
+      "coordinates": {
+        "points": [
+          [
+            195.88485717773438,
+            1214.8638916015625
+          ],
+          [
+            195.88485717773438,
+            1562.1353333333338
+          ],
+          [
+            1424.849,
+            1562.1353333333338
+          ],
+          [
+            1424.849,
+            1214.8638916015625
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "3a0fddbdb54e6739e528529101e38093",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "NarrativeText",
+    "element_id": "c6c7b88ff3cc021417293f005318e537",
+    "text": "Als Professional Service Partner von STACKIT unterstützt OPITZ CONSULTING Unternehmen in allen Schritten ihrer Cloud-Journey und entwickelt, implementiert und betreibt kundenindividuelle Lösungen auf Basis der STACKIT Cloud. Das Herzstück der Partnerschaft ist die Vision, die individu- ellen Stärken beider Unternehmen zu bündeln, um Unternehmen eine nahtlose, effiziente und si- chere Cloud-Transformation zu ermöglichen.",
+    "metadata": {
+      "detection_class_prob": 0.9504092931747437,
+      "coordinates": {
+        "points": [
+          [
+            196.89010620117188,
+            1602.529052734375
+          ],
+          [
+            196.89010620117188,
+            1843.5053333333335
+          ],
+          [
+            1432.1530000000002,
+            1843.5053333333335
+          ],
+          [
+            1432.1530000000002,
+            1602.529052734375
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "3a0fddbdb54e6739e528529101e38093",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "NarrativeText",
+    "element_id": "b44e1830b972615c5fcbb75652bdc72f",
+    "text": "„Mit OPITZ CONSULTING haben wir einen starken Partner für unser Ökosystem gewonnen, der unseren Kunden eine hervorragende Beratung und Betreuung auf ihrer Cloud-Journey bietet“, sagt Benedikt Scherzinger, Head of STACKIT Partner Sales.",
+    "metadata": {
+      "detection_class_prob": 0.9343789219856262,
+      "coordinates": {
+        "points": [
+          [
+            189.63995361328125,
+            1885.5033333333336
+          ],
+          [
+            189.63995361328125,
+            2019.188666666667
+          ],
+          [
+            1424.8075,
+            2019.188666666667
+          ],
+          [
+            1424.8075,
+            1885.5033333333336
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "3a0fddbdb54e6739e528529101e38093",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "Title",
+    "element_id": "ed5f42b63c21047a8cc7d692559adecf",
+    "text": "OPITZ CONSULTING Deutschland GmbH 2016 Seite 1",
+    "metadata": {
+      "coordinates": {
+        "points": [
+          [
+            197.0,
+            2218.066666666666
+          ],
+          [
+            197.0,
+            2243.066666666666
+          ],
+          [
+            1250.2999999999997,
+            2243.066666666666
+          ],
+          [
+            1250.2999999999997,
+            2218.066666666666
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "Title",
+    "element_id": "b82db735d82acd0d31d2df96aedff5ff",
+    "text": "von 2",
+    "metadata": {
+      "coordinates": {
+        "points": [
+          [
+            197.00000000000003,
+            2246.741666666667
+          ],
+          [
+            197.00000000000003,
+            2271.741666666667
+          ],
+          [
+            260.62500000000006,
+            2271.741666666667
+          ],
+          [
+            260.62500000000006,
+            2246.741666666667
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "Title",
+    "element_id": "02f729920a99d197290b46eea28e383a",
+    "text": "Presseinfo",
+    "metadata": {
+      "coordinates": {
+        "points": [
+          [
+            8.333333333333332,
+            2268.133333333333
+          ],
+          [
+            8.333333333333332,
+            2368.133333333333
+          ],
+          [
+            553.3333333333333,
+            2368.133333333333
+          ],
+          [
+            553.3333333333333,
+            2268.133333333333
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "Image",
+    "element_id": "52402bad3bc672689c3a140fb0c3b310",
+    "text": "_ \\— OPITZ CONSULTING",
+    "metadata": {
+      "coordinates": {
+        "points": [
+          [
+            198.13518527777777,
+            69.58334694444437
+          ],
+          [
+            198.13518527777777,
+            156.2500066666666
+          ],
+          [
+            422.41994249999993,
+            156.2500066666666
+          ],
+          [
+            422.41994249999993,
+            69.58334694444437
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "Header",
+    "element_id": "f3389f8262a7cdf793d6415fc748ddfe",
+    "text": "■■■ Digitale Service Manufaktur",
+    "metadata": {
+      "detection_class_prob": 0.8470928072929382,
+      "coordinates": {
+        "points": [
+          [
+            1036.9229736328125,
+            126.32499999999993
+          ],
+          [
+            1036.9229736328125,
+            153.9916666666664
+          ],
+          [
+            1421.5833333333333,
+            153.9916666666664
+          ],
+          [
+            1421.5833333333333,
+            126.32499999999993
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "NarrativeText",
+    "element_id": "236f52bbadab84cd98ab322918d21174",
+    "text": "Christoph Pfinder, Senior Manager Solutions bei OPITZ CONSULTING stimmt dem zu: „Wir sind begeistert von der Synergie mit STACKIT und der gemeinsamen Vision, die digitale Transformation von Unternehmen mit einer soliden, vertrauenswürdigen Basis voranzutreiben.“",
+    "metadata": {
+      "detection_class_prob": 0.9354803562164307,
+      "coordinates": {
+        "points": [
+          [
+            192.40951538085938,
+            259.7573333333331
+          ],
+          [
+            192.40951538085938,
+            393.11066666666613
+          ],
+          [
+            1432.5103333333336,
+            393.11066666666613
+          ],
+          [
+            1432.5103333333336,
+            259.7573333333331
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "parent_id": "f3389f8262a7cdf793d6415fc748ddfe",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "NarrativeText",
+    "element_id": "5876760ce551b3f182a5311a92caf564",
+    "text": "Pfinder betont: „Hier geht es um mehr als um eine Zusammenarbeit zweier Unternehmen – diese Partnerschaft ist ein Versprechen an unsere Kunden, die digitale Zukunft sicher, souverän und erfolgreich zu gestalten. Unsere geteilten Werte und unsere gemeinsame technische Vision werden diese Reise in außergewöhnlicher Weise prägen.“",
+    "metadata": {
+      "detection_class_prob": 0.9422531127929688,
+      "coordinates": {
+        "points": [
+          [
+            194.25648498535156,
+            434.29083251953125
+          ],
+          [
+            194.25648498535156,
+            621.8033333333327
+          ],
+          [
+            1432.1783333333333,
+            621.8033333333327
+          ],
+          [
+            1432.1783333333333,
+            434.29083251953125
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "parent_id": "f3389f8262a7cdf793d6415fc748ddfe",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "Title",
+    "element_id": "bf6b7b50d3158262aed71f7d078d8dc5",
+    "text": "Über STACKIT",
+    "metadata": {
+      "detection_class_prob": 0.8383969068527222,
+      "coordinates": {
+        "points": [
+          [
+            196.4024658203125,
+            679.5236206054688
+          ],
+          [
+            196.4024658203125,
+            715.7333333333332
+          ],
+          [
+            418.33333333333337,
+            715.7333333333332
+          ],
+          [
+            418.33333333333337,
+            679.5236206054688
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "parent_id": "f3389f8262a7cdf793d6415fc748ddfe",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "NarrativeText",
+    "element_id": "f5c24d35b57405a21d82729e5af4b02a",
+    "text": "STACKIT ist der Cloud- und Colocation-Provider der Schwarz Gruppe. Auch externe Partner und Kunden in der DACH-Region können sich bei der digitalen Transformation auf die Cloud-Services verlassen, von denen die Unternehmen der Schwarz Gruppe seit Jahren profitieren. Mit einer tech- nischen Infrastruktur ausschließlich in Deutschland und Österreich bietet STACKIT eine weit über den Marktstandard hinausgehende Datensouveränität. Das Team mit Hauptsitz im schwäbischen Neckarsulm ebnet so den Weg in ein unabhängiges Europa – digital, führend. Als Teil von Schwarz Digits gehört STACKIT zur IT- und Digitalsparte der Schwarz Gruppe.",
+    "metadata": {
+      "detection_class_prob": 0.9507400393486023,
+      "coordinates": {
+        "points": [
+          [
+            196.34799194335938,
+            777.2191772460938
+          ],
+          [
+            196.34799194335938,
+            1122.8053333333335
+          ],
+          [
+            1424.0886000000007,
+            1122.8053333333335
+          ],
+          [
+            1424.0886000000007,
+            777.2191772460938
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "parent_id": "bf6b7b50d3158262aed71f7d078d8dc5",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "Title",
+    "element_id": "843b124aa74b6755e46ddbc1d2910d19",
+    "text": "Über OPITZ CONSULTING",
+    "metadata": {
+      "detection_class_prob": 0.844560980796814,
+      "coordinates": {
+        "points": [
+          [
+            197.0,
+            1183.2515869140625
+          ],
+          [
+            197.0,
+            1216.7333333333331
+          ],
+          [
+            601.6666666666667,
+            1216.7333333333331
+          ],
+          [
+            601.6666666666667,
+            1183.2515869140625
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "parent_id": "f3389f8262a7cdf793d6415fc748ddfe",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "NarrativeText",
+    "element_id": "e7ac2cafb0c616cd88843a92796e80c5",
+    "text": "Warum stehen Sie morgens auf? Um Ihr Unternehmen besser zu machen? Die richtigen Entscheidungen auf Basis der aktuellen Daten und Vorhersagen zu treffen? Sie wollen Prozesse verschlanken und automatisieren? Sich auf Ihr Geschäft konzentrieren und nicht auf Ihre IT? Die Fachleute der OPITZ CONSULTING Gruppe unterstützen Sie bei diesen Aufgaben getreu dem Motto „Bauen, Modernisieren und Betreiben“. Mehr als 500 Beschäftigte an 9 Standorten treten jeden Tag an, um Organisationen zu helfen, ihr Geschäft mithilfe von IT erfolgreicher zu machen. Mit digitalen Lösungen, die dem Menschen dienen und nicht umgekehrt.",
+    "metadata": {
+      "detection_class_prob": 0.9490609765052795,
+      "coordinates": {
+        "points": [
+          [
+            196.97233333333327,
+            1261.301513671875
+          ],
+          [
+            196.97233333333327,
+            1607.1373333333338
+          ],
+          [
+            1431.874,
+            1607.1373333333338
+          ],
+          [
+            1431.874,
+            1261.301513671875
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "parent_id": "843b124aa74b6755e46ddbc1d2910d19",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "Title",
+    "element_id": "29a8899ffda75f74511670f5302f8035",
+    "text": "Kontakt",
+    "metadata": {
+      "detection_class_prob": 0.791384756565094,
+      "coordinates": {
+        "points": [
+          [
+            197.0,
+            1666.28564453125
+          ],
+          [
+            197.0,
+            1700.7333333333333
+          ],
+          [
+            326.3333333333333,
+            1700.7333333333333
+          ],
+          [
+            326.3333333333333,
+            1666.28564453125
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "parent_id": "f3389f8262a7cdf793d6415fc748ddfe",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "NarrativeText",
+    "element_id": "2664d6d7c6cfe1d291574e0c419c996f",
+    "text": "OPITZ CONSULTING Deutschland GmbH Christoph Pfinder | Senior Manager Solutions Kirchstraße 6 | 51647 Gummersbach E-Mail: christoph.pfinder@opitz-consulting.com",
+    "metadata": {
+      "detection_class_prob": 0.8647645711898804,
+      "coordinates": {
+        "points": [
+          [
+            195.8481903076172,
+            1741.8829345703125
+          ],
+          [
+            195.8481903076172,
+            1933.501953125
+          ],
+          [
+            797.5266666666666,
+            1933.501953125
+          ],
+          [
+            797.5266666666666,
+            1741.8829345703125
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "parent_id": "29a8899ffda75f74511670f5302f8035",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "Title",
+    "element_id": "4ef961c1b63a503bfa47d1409edd4d6d",
+    "text": "© OPITZ CONSULTING Deutschland GmbH 2016 Seite",
+    "metadata": {
+      "coordinates": {
+        "points": [
+          [
+            197.0,
+            2208.4
+          ],
+          [
+            197.0,
+            2233.4
+          ],
+          [
+            1250.467500000004,
+            2233.4
+          ],
+          [
+            1250.467500000004,
+            2208.4
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "parent_id": "f3389f8262a7cdf793d6415fc748ddfe",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "Title",
+    "element_id": "a36dda5fc62bc08583a9a7856c93d94d",
+    "text": "2 von 2",
+    "metadata": {
+      "coordinates": {
+        "points": [
+          [
+            197.0,
+            2237.075
+          ],
+          [
+            197.0,
+            2262.075
+          ],
+          [
+            279.3,
+            2262.075
+          ],
+          [
+            279.3,
+            2237.075
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "parent_id": "f3389f8262a7cdf793d6415fc748ddfe",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  },
+  {
+    "type": "Title",
+    "element_id": "ae776aefba8afabde041346b7b3c69be",
+    "text": "Presseinfo",
+    "metadata": {
+      "coordinates": {
+        "points": [
+          [
+            1128.0,
+            2266.7999999999997
+          ],
+          [
+            1128.0,
+            2366.7999999999997
+          ],
+          [
+            1672.9999999999998,
+            2366.7999999999997
+          ],
+          [
+            1672.9999999999998,
+            2266.7999999999997
+          ]
+        ],
+        "system": "PixelSpace",
+        "layout_width": 1654,
+        "layout_height": 2339
+      },
+      "last_modified": "2025-06-09T18:37:08",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "parent_id": "f3389f8262a7cdf793d6415fc748ddfe",
+      "file_directory": "C:\\Users\\info\\AppData\\Local\\Temp",
+      "filename": "tmpze_u428l.pdf"
+    }
+  }
+]
+2025-06-09 18:37:15,467 - INFO - Gesamtzahl strukturierter Elemente: 26
+2025-06-09 18:37:15,467 - INFO - ----------------------------------------
+2025-06-09 18:37:15,467 - INFO - 
+--- SCHRITT 2: Textextraktion ---
+2025-06-09 18:37:15,467 - INFO - Textextraktion erfolgreich abgeschlossen.
+2025-06-09 18:37:15,467 - INFO - 
+--- SCHRITT 3: NLP-Verarbeitung ---
+2025-06-09 18:37:15,931 - INFO - Sprache des Textes erkannt: de
+2025-06-09 18:37:15,931 - INFO - Sende Text an NLP-Dienst zur Verarbeitung (Sprache: de)...
+2025-06-09 18:37:16,244 - INFO - 
+--- Ausgabe von SCHRITT 3 (NLP-Ergebnisse) ---
+2025-06-09 18:37:16,245 - INFO - Verarbeitete Sprache vom NLP-Dienst: de
+2025-06-09 18:37:16,245 - INFO - 
+--- 3.1: Benannte Entitäten (NER) ---
+2025-06-09 18:37:16,245 - INFO - - Text: 'Digitale Service Manufaktur',  Label: ORG
+2025-06-09 18:37:16,245 - INFO - - Text: 'OPITZ CONSULTING',  Label: ORG
+2025-06-09 18:37:16,245 - INFO - - Text: 'UN',  Label: LOC
+2025-06-09 18:37:16,245 - INFO - - Text: '##D',  Label: ORG
+2025-06-09 18:37:16,245 - INFO - - Text: 'STACKIT WERDEN CLOUD',  Label: LOC
+2025-06-09 18:37:16,245 - INFO - - Text: 'PARTNER MIT',  Label: LOC
+2025-06-09 18:37:16,246 - INFO - - Text: 'STACKIT',  Label: ORG
+2025-06-09 18:37:16,246 - INFO - - Text: 'OPITZ CONSULTING',  Label: ORG
+2025-06-09 18:37:16,246 - INFO - - Text: 'Deutschland',  Label: LOC
+2025-06-09 18:37:16,246 - INFO - - Text: 'Österreich',  Label: LOC
+2025-06-09 18:37:16,246 - INFO - - Text: 'STACKIT',  Label: ORG
+2025-06-09 18:37:16,246 - INFO - - Text: 'Gummersbach',  Label: LOC
+2025-06-09 18:37:16,246 - INFO - - Text: 'OPITZ CONSULTING',  Label: ORG
+2025-06-09 18:37:16,246 - INFO - - Text: 'STACKIT',  Label: ORG
+2025-06-09 18:37:16,246 - INFO - - Text: 'OPITZ CONSULTING',  Label: ORG
+2025-06-09 18:37:16,246 - INFO - - Text: 'STACKIT',  Label: ORG
+2025-06-09 18:37:16,246 - INFO - - Text: 'STACKIT ' s',  Label: ORG
+2025-06-09 18:37:16,246 - INFO - - Text: 'OPITZ',  Label: ORG
+2025-06-09 18:37:16,246 - INFO - - Text: '##NSULTING',  Label: ORG
+2025-06-09 18:37:16,246 - INFO - - Text: 's',  Label: ORG
+2025-06-09 18:37:16,246 - INFO - - Text: 'STACKIT',  Label: ORG
+2025-06-09 18:37:16,246 - INFO - - Text: 'OPITZ',  Label: ORG
+2025-06-09 18:37:16,248 - INFO - - Text: 'CONSULTING',  Label: ORG
+2025-06-09 18:37:16,248 - INFO - - Text: 'STACKIT',  Label: ORG
+2025-06-09 18:37:16,248 - INFO - - Text: 'OPITZ CONSULTING',  Label: ORG
+2025-06-09 18:37:16,248 - INFO - - Text: 'Benedikt Scherzinger',  Label: PER
+2025-06-09 18:37:16,248 - INFO - - Text: 'STACKIT Partner Sales',  Label: ORG
+2025-06-09 18:37:16,248 - INFO - - Text: 'OPITZ CONSULTING Deutschland GmbH',  Label: ORG
+2025-06-09 18:37:16,248 - INFO - - Text: 'Christoph Pfinder',  Label: PER
+2025-06-09 18:37:16,248 - INFO - - Text: '##utions',  Label: ORG
+2025-06-09 18:37:16,248 - INFO - - Text: 'OPITZ',  Label: ORG
+2025-06-09 18:37:16,248 - INFO - - Text: 'CONSULTING',  Label: ORG
+2025-06-09 18:37:16,248 - INFO - - Text: 'STACKIT',  Label: ORG
+2025-06-09 18:37:16,248 - INFO - 
+--- 3.2: Lemmatisierung (Vollständige Liste der Token) ---
+2025-06-09 18:37:16,249 - INFO - [
+  {
+    "text": "■",
+    "lemma": "■"
+  },
+  {
+    "text": "■",
+    "lemma": "■"
+  },
+  {
+    "text": "■",
+    "lemma": "■"
+  },
+  {
+    "text": "Digitale",
+    "lemma": "digital"
+  },
+  {
+    "text": "Service",
+    "lemma": "Service"
+  },
+  {
+    "text": "Manufaktur",
+    "lemma": "Manufaktur"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "OPITZ",
+    "lemma": "OPITZ"
+  },
+  {
+    "text": "CONSULTING",
+    "lemma": "CONSULTING"
+  },
+  {
+    "text": "UND",
+    "lemma": "und"
+  },
+  {
+    "text": "STACKIT",
+    "lemma": "STACKIT"
+  },
+  {
+    "text": "WERDEN",
+    "lemma": "WERDEN"
+  },
+  {
+    "text": "CLOUD-PARTNER",
+    "lemma": "CLOUD-PARTNER"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "MIT",
+    "lemma": "MIT"
+  },
+  {
+    "text": "STACKIT",
+    "lemma": "STACKIT"
+  },
+  {
+    "text": "holt",
+    "lemma": "holen"
+  },
+  {
+    "text": "sich",
+    "lemma": "sich"
+  },
+  {
+    "text": "OPITZ",
+    "lemma": "OPITZ"
+  },
+  {
+    "text": "CONSULTING",
+    "lemma": "CONSULTING"
+  },
+  {
+    "text": "einen",
+    "lemma": "ein"
+  },
+  {
+    "text": "souveränen",
+    "lemma": "souverän"
+  },
+  {
+    "text": "deutschen",
+    "lemma": "deutsch"
+  },
+  {
+    "text": "Cloud-",
+    "lemma": "Cloud"
+  },
+  {
+    "text": "Provider",
+    "lemma": "Provider"
+  },
+  {
+    "text": "mit",
+    "lemma": "mit"
+  },
+  {
+    "text": "ins",
+    "lemma": "in"
+  },
+  {
+    "text": "Boot",
+    "lemma": "Boot"
+  },
+  {
+    "text": "–",
+    "lemma": "--"
+  },
+  {
+    "text": "mit",
+    "lemma": "mit"
+  },
+  {
+    "text": "Rechenzentren",
+    "lemma": "Rechenzentrum"
+  },
+  {
+    "text": "in",
+    "lemma": "in"
+  },
+  {
+    "text": "Deutschland",
+    "lemma": "Deutschland"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "Österreich",
+    "lemma": "Österreich"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "ur",
+    "lemma": "ur"
+  },
+  {
+    "text": "STACKIT",
+    "lemma": "STACKIT"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "Gummersbach",
+    "lemma": "Gummersbach"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "1.",
+    "lemma": "1."
+  },
+  {
+    "text": "März",
+    "lemma": "März"
+  },
+  {
+    "text": "2024",
+    "lemma": "2024"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "Seit",
+    "lemma": "seit"
+  },
+  {
+    "text": "dem",
+    "lemma": "der"
+  },
+  {
+    "text": "1.",
+    "lemma": "1."
+  },
+  {
+    "text": "März",
+    "lemma": "März"
+  },
+  {
+    "text": "2024",
+    "lemma": "2024"
+  },
+  {
+    "text": "bündeln",
+    "lemma": "bündeln"
+  },
+  {
+    "text": "OPITZ",
+    "lemma": "OPITZ"
+  },
+  {
+    "text": "CONSULTING",
+    "lemma": "CONSULTING"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "STACKIT",
+    "lemma": "STACKIT"
+  },
+  {
+    "text": "ihre",
+    "lemma": "ihr"
+  },
+  {
+    "text": "Kräfte",
+    "lemma": "Kraft"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "um",
+    "lemma": "um"
+  },
+  {
+    "text": "eine",
+    "lemma": "ein"
+  },
+  {
+    "text": "Allianz",
+    "lemma": "Allianz"
+  },
+  {
+    "text": "im",
+    "lemma": "in"
+  },
+  {
+    "text": "Bereich",
+    "lemma": "Bereich"
+  },
+  {
+    "text": "Cloud-Infrastruktur",
+    "lemma": "Cloud-Infrastruktur"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "Cloud-Dienstleistungen",
+    "lemma": "Cloud-Dienstleistung"
+  },
+  {
+    "text": "zu",
+    "lemma": "zu"
+  },
+  {
+    "text": "schmieden",
+    "lemma": "schmieden"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "Diese",
+    "lemma": "dieser"
+  },
+  {
+    "text": "Zusammenarbeit",
+    "lemma": "Zusammenarbeit"
+  },
+  {
+    "text": "eröffnet",
+    "lemma": "eröffnen"
+  },
+  {
+    "text": "den",
+    "lemma": "der"
+  },
+  {
+    "text": "Kunden",
+    "lemma": "Kunde"
+  },
+  {
+    "text": "von",
+    "lemma": "von"
+  },
+  {
+    "text": "OPITZ",
+    "lemma": "OPITZ"
+  },
+  {
+    "text": "CONSULTING",
+    "lemma": "CONSULTING"
+  },
+  {
+    "text": "den",
+    "lemma": "der"
+  },
+  {
+    "text": "Zugang",
+    "lemma": "Zugang"
+  },
+  {
+    "text": "zur",
+    "lemma": "zu"
+  },
+  {
+    "text": "STACKIT",
+    "lemma": "STACKIT"
+  },
+  {
+    "text": "Cloud",
+    "lemma": "Cloud"
+  },
+  {
+    "text": "–",
+    "lemma": "--"
+  },
+  {
+    "text": "einer",
+    "lemma": "ein"
+  },
+  {
+    "text": "deutschen",
+    "lemma": "deutsch"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "datensouveränen",
+    "lemma": "datensouverän"
+  },
+  {
+    "text": "Cloud-Lösung",
+    "lemma": "Cloud-Lösung"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "die",
+    "lemma": "der"
+  },
+  {
+    "text": "eine",
+    "lemma": "ein"
+  },
+  {
+    "text": "leistungsstarke",
+    "lemma": "leistungsstark"
+  },
+  {
+    "text": "Alternative",
+    "lemma": "Alternative"
+  },
+  {
+    "text": "zu",
+    "lemma": "zu"
+  },
+  {
+    "text": "US-amerikanischen",
+    "lemma": "US-amerikanisch"
+  },
+  {
+    "text": "Hyperscalern",
+    "lemma": "Hyperscaler"
+  },
+  {
+    "text": "darstellt",
+    "lemma": "darstellen"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "Mit",
+    "lemma": "mit"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "geballten",
+    "lemma": "geballt"
+  },
+  {
+    "text": "Kraft",
+    "lemma": "Kraft"
+  },
+  {
+    "text": "von",
+    "lemma": "von"
+  },
+  {
+    "text": "STACKIT's",
+    "lemma": "STACKIT's"
+  },
+  {
+    "text": "Cloud-Kompetenz",
+    "lemma": "Cloud-Kompetenz"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "OPITZ",
+    "lemma": "OPITZ"
+  },
+  {
+    "text": "CONSULTING's",
+    "lemma": "CONSULTING's"
+  },
+  {
+    "text": "Expertise",
+    "lemma": "Expertise"
+  },
+  {
+    "text": "in",
+    "lemma": "in"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "IT-Modernisierung",
+    "lemma": "IT-Modernisierung"
+  },
+  {
+    "text": "sind",
+    "lemma": "sein"
+  },
+  {
+    "text": "Unternehmen",
+    "lemma": "Unternehmen"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "Organisationen",
+    "lemma": "Organisation"
+  },
+  {
+    "text": "nun",
+    "lemma": "nun"
+  },
+  {
+    "text": "bestens",
+    "lemma": "bestens"
+  },
+  {
+    "text": "ausgestattet",
+    "lemma": "ausstatten"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "um",
+    "lemma": "um"
+  },
+  {
+    "text": "ihre",
+    "lemma": "ihr"
+  },
+  {
+    "text": "IT-Landschaften",
+    "lemma": "IT-Landschaft"
+  },
+  {
+    "text": "zukunftssicher",
+    "lemma": "zukunftssich"
+  },
+  {
+    "text": "zu",
+    "lemma": "zu"
+  },
+  {
+    "text": "gestalten",
+    "lemma": "gestalten"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "Als",
+    "lemma": "als"
+  },
+  {
+    "text": "Professional",
+    "lemma": "Professional"
+  },
+  {
+    "text": "Service",
+    "lemma": "Service"
+  },
+  {
+    "text": "Partner",
+    "lemma": "Partner"
+  },
+  {
+    "text": "von",
+    "lemma": "von"
+  },
+  {
+    "text": "STACKIT",
+    "lemma": "STACKIT"
+  },
+  {
+    "text": "unterstützt",
+    "lemma": "unterstützen"
+  },
+  {
+    "text": "OPITZ",
+    "lemma": "OPITZ"
+  },
+  {
+    "text": "CONSULTING",
+    "lemma": "CONSULTING"
+  },
+  {
+    "text": "Unternehmen",
+    "lemma": "Unternehmen"
+  },
+  {
+    "text": "in",
+    "lemma": "in"
+  },
+  {
+    "text": "allen",
+    "lemma": "aller"
+  },
+  {
+    "text": "Schritten",
+    "lemma": "Schritt"
+  },
+  {
+    "text": "ihrer",
+    "lemma": "ihr"
+  },
+  {
+    "text": "Cloud-Journey",
+    "lemma": "Cloud-Journey"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "entwickelt",
+    "lemma": "entwickeln"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "implementiert",
+    "lemma": "implementieren"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "betreibt",
+    "lemma": "betreiben"
+  },
+  {
+    "text": "kundenindividuelle",
+    "lemma": "kundenindividuell"
+  },
+  {
+    "text": "Lösungen",
+    "lemma": "Lösung"
+  },
+  {
+    "text": "auf",
+    "lemma": "auf"
+  },
+  {
+    "text": "Basis",
+    "lemma": "Basis"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "STACKIT",
+    "lemma": "STACKIT"
+  },
+  {
+    "text": "Cloud",
+    "lemma": "Cloud"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "Das",
+    "lemma": "der"
+  },
+  {
+    "text": "Herzstück",
+    "lemma": "Herzstück"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "Partnerschaft",
+    "lemma": "Partnerschaft"
+  },
+  {
+    "text": "ist",
+    "lemma": "sein"
+  },
+  {
+    "text": "die",
+    "lemma": "der"
+  },
+  {
+    "text": "Vision",
+    "lemma": "Vision"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "die",
+    "lemma": "der"
+  },
+  {
+    "text": "individu-",
+    "lemma": "individu"
+  },
+  {
+    "text": "ellen",
+    "lemma": "ell"
+  },
+  {
+    "text": "Stärken",
+    "lemma": "Stärke"
+  },
+  {
+    "text": "beider",
+    "lemma": "beide"
+  },
+  {
+    "text": "Unternehmen",
+    "lemma": "Unternehmen"
+  },
+  {
+    "text": "zu",
+    "lemma": "zu"
+  },
+  {
+    "text": "bündeln",
+    "lemma": "bündeln"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "um",
+    "lemma": "um"
+  },
+  {
+    "text": "Unternehmen",
+    "lemma": "Unternehmen"
+  },
+  {
+    "text": "eine",
+    "lemma": "ein"
+  },
+  {
+    "text": "nahtlose",
+    "lemma": "nahtlos"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "effiziente",
+    "lemma": "effizient"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "si-",
+    "lemma": "si"
+  },
+  {
+    "text": "chere",
+    "lemma": "cher"
+  },
+  {
+    "text": "Cloud-Transformation",
+    "lemma": "Cloud-Transformation"
+  },
+  {
+    "text": "zu",
+    "lemma": "zu"
+  },
+  {
+    "text": "ermöglichen",
+    "lemma": "ermöglichen"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "„",
+    "lemma": "--"
+  },
+  {
+    "text": "Mit",
+    "lemma": "mit"
+  },
+  {
+    "text": "OPITZ",
+    "lemma": "OPITZ"
+  },
+  {
+    "text": "CONSULTING",
+    "lemma": "CONSULTING"
+  },
+  {
+    "text": "haben",
+    "lemma": "haben"
+  },
+  {
+    "text": "wir",
+    "lemma": "wir"
+  },
+  {
+    "text": "einen",
+    "lemma": "ein"
+  },
+  {
+    "text": "starken",
+    "lemma": "stark"
+  },
+  {
+    "text": "Partner",
+    "lemma": "Partner"
+  },
+  {
+    "text": "für",
+    "lemma": "für"
+  },
+  {
+    "text": "unser",
+    "lemma": "unser"
+  },
+  {
+    "text": "Ökosystem",
+    "lemma": "Ökosystem"
+  },
+  {
+    "text": "gewonnen",
+    "lemma": "gewinnen"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "unseren",
+    "lemma": "unser"
+  },
+  {
+    "text": "Kunden",
+    "lemma": "Kunde"
+  },
+  {
+    "text": "eine",
+    "lemma": "ein"
+  },
+  {
+    "text": "hervorragende",
+    "lemma": "hervorragend"
+  },
+  {
+    "text": "Beratung",
+    "lemma": "Beratung"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "Betreuung",
+    "lemma": "Betreuung"
+  },
+  {
+    "text": "auf",
+    "lemma": "auf"
+  },
+  {
+    "text": "ihrer",
+    "lemma": "ihr"
+  },
+  {
+    "text": "Cloud-Journey",
+    "lemma": "Cloud-Journey"
+  },
+  {
+    "text": "bietet",
+    "lemma": "bieten"
+  },
+  {
+    "text": "“",
+    "lemma": "--"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "sagt",
+    "lemma": "sagen"
+  },
+  {
+    "text": "Benedikt",
+    "lemma": "Benedikt"
+  },
+  {
+    "text": "Scherzinger",
+    "lemma": "Scherzinger"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "Head",
+    "lemma": "Head"
+  },
+  {
+    "text": "of",
+    "lemma": "of"
+  },
+  {
+    "text": "STACKIT",
+    "lemma": "STACKIT"
+  },
+  {
+    "text": "Partner",
+    "lemma": "Partner"
+  },
+  {
+    "text": "Sales",
+    "lemma": "Sales"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "OPITZ",
+    "lemma": "OPITZ"
+  },
+  {
+    "text": "CONSULTING",
+    "lemma": "CONSULTING"
+  },
+  {
+    "text": "Deutschland",
+    "lemma": "Deutschland"
+  },
+  {
+    "text": "GmbH",
+    "lemma": "GmbH"
+  },
+  {
+    "text": "2016",
+    "lemma": "2016"
+  },
+  {
+    "text": "Seite",
+    "lemma": "Seite"
+  },
+  {
+    "text": "1",
+    "lemma": "1"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "von",
+    "lemma": "von"
+  },
+  {
+    "text": "2",
+    "lemma": "2"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "Presseinfo",
+    "lemma": "Presseinfo"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "Christoph",
+    "lemma": "Christoph"
+  },
+  {
+    "text": "Pfinder",
+    "lemma": "Pfinder"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "Senior",
+    "lemma": "Senior"
+  },
+  {
+    "text": "Manager",
+    "lemma": "Manager"
+  },
+  {
+    "text": "Solutions",
+    "lemma": "Solution"
+  },
+  {
+    "text": "bei",
+    "lemma": "bei"
+  },
+  {
+    "text": "OPITZ",
+    "lemma": "OPITZ"
+  },
+  {
+    "text": "CONSULTING",
+    "lemma": "CONSULTING"
+  },
+  {
+    "text": "stimmt",
+    "lemma": "stimmen"
+  },
+  {
+    "text": "dem",
+    "lemma": "der"
+  },
+  {
+    "text": "zu",
+    "lemma": "zu"
+  },
+  {
+    "text": ":",
+    "lemma": "--"
+  },
+  {
+    "text": "„",
+    "lemma": "--"
+  },
+  {
+    "text": "Wir",
+    "lemma": "wir"
+  },
+  {
+    "text": "sind",
+    "lemma": "sein"
+  },
+  {
+    "text": "begeistert",
+    "lemma": "begeistert"
+  },
+  {
+    "text": "von",
+    "lemma": "von"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "Synergie",
+    "lemma": "Synergie"
+  },
+  {
+    "text": "mit",
+    "lemma": "mit"
+  },
+  {
+    "text": "STACKIT",
+    "lemma": "STACKIT"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "gemeinsamen",
+    "lemma": "gemeinsam"
+  },
+  {
+    "text": "Vision",
+    "lemma": "Vision"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "die",
+    "lemma": "der"
+  },
+  {
+    "text": "digitale",
+    "lemma": "digital"
+  },
+  {
+    "text": "Transformation",
+    "lemma": "Transformation"
+  },
+  {
+    "text": "von",
+    "lemma": "von"
+  },
+  {
+    "text": "Unternehmen",
+    "lemma": "Unternehmen"
+  },
+  {
+    "text": "mit",
+    "lemma": "mit"
+  },
+  {
+    "text": "einer",
+    "lemma": "ein"
+  },
+  {
+    "text": "soliden",
+    "lemma": "solide"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "vertrauenswürdigen",
+    "lemma": "vertrauenswürdig"
+  },
+  {
+    "text": "Basis",
+    "lemma": "Basis"
+  },
+  {
+    "text": "voranzutreiben",
+    "lemma": "vorantreiben"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "“",
+    "lemma": "--"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "Pfinder",
+    "lemma": "Pfind"
+  },
+  {
+    "text": "betont",
+    "lemma": "betonen"
+  },
+  {
+    "text": ":",
+    "lemma": "--"
+  },
+  {
+    "text": "„",
+    "lemma": "--"
+  },
+  {
+    "text": "Hier",
+    "lemma": "hier"
+  },
+  {
+    "text": "geht",
+    "lemma": "gehen"
+  },
+  {
+    "text": "es",
+    "lemma": "es"
+  },
+  {
+    "text": "um",
+    "lemma": "um"
+  },
+  {
+    "text": "mehr",
+    "lemma": "mehr"
+  },
+  {
+    "text": "als",
+    "lemma": "als"
+  },
+  {
+    "text": "um",
+    "lemma": "um"
+  },
+  {
+    "text": "eine",
+    "lemma": "ein"
+  },
+  {
+    "text": "Zusammenarbeit",
+    "lemma": "Zusammenarbeit"
+  },
+  {
+    "text": "zweier",
+    "lemma": "zwei"
+  },
+  {
+    "text": "Unternehmen",
+    "lemma": "Unternehmen"
+  },
+  {
+    "text": "–",
+    "lemma": "--"
+  },
+  {
+    "text": "diese",
+    "lemma": "dieser"
+  },
+  {
+    "text": "Partnerschaft",
+    "lemma": "Partnerschaft"
+  },
+  {
+    "text": "ist",
+    "lemma": "sein"
+  },
+  {
+    "text": "ein",
+    "lemma": "ein"
+  },
+  {
+    "text": "Versprechen",
+    "lemma": "Versprechen"
+  },
+  {
+    "text": "an",
+    "lemma": "an"
+  },
+  {
+    "text": "unsere",
+    "lemma": "unser"
+  },
+  {
+    "text": "Kunden",
+    "lemma": "Kunde"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "die",
+    "lemma": "der"
+  },
+  {
+    "text": "digitale",
+    "lemma": "digital"
+  },
+  {
+    "text": "Zukunft",
+    "lemma": "Zukunft"
+  },
+  {
+    "text": "sicher",
+    "lemma": "sicher"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "souverän",
+    "lemma": "souverän"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "erfolgreich",
+    "lemma": "erfolgreich"
+  },
+  {
+    "text": "zu",
+    "lemma": "zu"
+  },
+  {
+    "text": "gestalten",
+    "lemma": "gestalten"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "Unsere",
+    "lemma": "unser"
+  },
+  {
+    "text": "geteilten",
+    "lemma": "geteilt"
+  },
+  {
+    "text": "Werte",
+    "lemma": "Wert"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "unsere",
+    "lemma": "unser"
+  },
+  {
+    "text": "gemeinsame",
+    "lemma": "gemeinsam"
+  },
+  {
+    "text": "technische",
+    "lemma": "technisch"
+  },
+  {
+    "text": "Vision",
+    "lemma": "Vision"
+  },
+  {
+    "text": "werden",
+    "lemma": "werden"
+  },
+  {
+    "text": "diese",
+    "lemma": "dieser"
+  },
+  {
+    "text": "Reise",
+    "lemma": "Reise"
+  },
+  {
+    "text": "in",
+    "lemma": "in"
+  },
+  {
+    "text": "außergewöhnlicher",
+    "lemma": "außergewöhnlich"
+  },
+  {
+    "text": "Weise",
+    "lemma": "Weise"
+  },
+  {
+    "text": "prägen",
+    "lemma": "prägen"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "“",
+    "lemma": "--"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "Über",
+    "lemma": "über"
+  },
+  {
+    "text": "STACKIT",
+    "lemma": "STACKIT"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "STACKIT",
+    "lemma": "STACKIT"
+  },
+  {
+    "text": "ist",
+    "lemma": "sein"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "Cloud-",
+    "lemma": "Cloud"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "Colocation-Provider",
+    "lemma": "Colocation-Provider"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "Schwarz",
+    "lemma": "Schwarz"
+  },
+  {
+    "text": "Gruppe",
+    "lemma": "Gruppe"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "Auch",
+    "lemma": "auch"
+  },
+  {
+    "text": "externe",
+    "lemma": "extern"
+  },
+  {
+    "text": "Partner",
+    "lemma": "Partner"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "Kunden",
+    "lemma": "Kunde"
+  },
+  {
+    "text": "in",
+    "lemma": "in"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "DACH-Region",
+    "lemma": "DACH-Region"
+  },
+  {
+    "text": "können",
+    "lemma": "können"
+  },
+  {
+    "text": "sich",
+    "lemma": "sich"
+  },
+  {
+    "text": "bei",
+    "lemma": "bei"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "digitalen",
+    "lemma": "digital"
+  },
+  {
+    "text": "Transformation",
+    "lemma": "Transformation"
+  },
+  {
+    "text": "auf",
+    "lemma": "auf"
+  },
+  {
+    "text": "die",
+    "lemma": "der"
+  },
+  {
+    "text": "Cloud-Services",
+    "lemma": "Cloud-Services"
+  },
+  {
+    "text": "verlassen",
+    "lemma": "verlassen"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "von",
+    "lemma": "von"
+  },
+  {
+    "text": "denen",
+    "lemma": "der"
+  },
+  {
+    "text": "die",
+    "lemma": "der"
+  },
+  {
+    "text": "Unternehmen",
+    "lemma": "Unternehmen"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "Schwarz",
+    "lemma": "Schwarz"
+  },
+  {
+    "text": "Gruppe",
+    "lemma": "Gruppe"
+  },
+  {
+    "text": "seit",
+    "lemma": "seit"
+  },
+  {
+    "text": "Jahren",
+    "lemma": "Jahr"
+  },
+  {
+    "text": "profitieren",
+    "lemma": "profitieren"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "Mit",
+    "lemma": "mit"
+  },
+  {
+    "text": "einer",
+    "lemma": "ein"
+  },
+  {
+    "text": "tech-",
+    "lemma": "tech"
+  },
+  {
+    "text": "nischen",
+    "lemma": "nisch"
+  },
+  {
+    "text": "Infrastruktur",
+    "lemma": "Infrastruktur"
+  },
+  {
+    "text": "ausschließlich",
+    "lemma": "ausschließlich"
+  },
+  {
+    "text": "in",
+    "lemma": "in"
+  },
+  {
+    "text": "Deutschland",
+    "lemma": "Deutschland"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "Österreich",
+    "lemma": "Österreich"
+  },
+  {
+    "text": "bietet",
+    "lemma": "bieten"
+  },
+  {
+    "text": "STACKIT",
+    "lemma": "STACKIT"
+  },
+  {
+    "text": "eine",
+    "lemma": "ein"
+  },
+  {
+    "text": "weit",
+    "lemma": "weit"
+  },
+  {
+    "text": "über",
+    "lemma": "über"
+  },
+  {
+    "text": "den",
+    "lemma": "der"
+  },
+  {
+    "text": "Marktstandard",
+    "lemma": "Marktstandard"
+  },
+  {
+    "text": "hinausgehende",
+    "lemma": "hinausgehend"
+  },
+  {
+    "text": "Datensouveränität",
+    "lemma": "Datensouveränität"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "Das",
+    "lemma": "der"
+  },
+  {
+    "text": "Team",
+    "lemma": "Team"
+  },
+  {
+    "text": "mit",
+    "lemma": "mit"
+  },
+  {
+    "text": "Hauptsitz",
+    "lemma": "Hauptsitz"
+  },
+  {
+    "text": "im",
+    "lemma": "in"
+  },
+  {
+    "text": "schwäbischen",
+    "lemma": "schwäbisch"
+  },
+  {
+    "text": "Neckarsulm",
+    "lemma": "Neckarsulm"
+  },
+  {
+    "text": "ebnet",
+    "lemma": "ebnen"
+  },
+  {
+    "text": "so",
+    "lemma": "so"
+  },
+  {
+    "text": "den",
+    "lemma": "der"
+  },
+  {
+    "text": "Weg",
+    "lemma": "Weg"
+  },
+  {
+    "text": "in",
+    "lemma": "in"
+  },
+  {
+    "text": "ein",
+    "lemma": "ein"
+  },
+  {
+    "text": "unabhängiges",
+    "lemma": "unabhängig"
+  },
+  {
+    "text": "Europa",
+    "lemma": "Europa"
+  },
+  {
+    "text": "–",
+    "lemma": "--"
+  },
+  {
+    "text": "digital",
+    "lemma": "digital"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "führend",
+    "lemma": "führend"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "Als",
+    "lemma": "als"
+  },
+  {
+    "text": "Teil",
+    "lemma": "Teil"
+  },
+  {
+    "text": "von",
+    "lemma": "von"
+  },
+  {
+    "text": "Schwarz",
+    "lemma": "Schwarz"
+  },
+  {
+    "text": "Digits",
+    "lemma": "Digit"
+  },
+  {
+    "text": "gehört",
+    "lemma": "gehören"
+  },
+  {
+    "text": "STACKIT",
+    "lemma": "STACKIT"
+  },
+  {
+    "text": "zur",
+    "lemma": "zu"
+  },
+  {
+    "text": "IT-",
+    "lemma": "IT"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "Digitalsparte",
+    "lemma": "Digitalspart"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "Schwarz",
+    "lemma": "Schwarz"
+  },
+  {
+    "text": "Gruppe",
+    "lemma": "Gruppe"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "Über",
+    "lemma": "über"
+  },
+  {
+    "text": "OPITZ",
+    "lemma": "OPITZ"
+  },
+  {
+    "text": "CONSULTING",
+    "lemma": "CONSULTING"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "Warum",
+    "lemma": "warum"
+  },
+  {
+    "text": "stehen",
+    "lemma": "stehen"
+  },
+  {
+    "text": "Sie",
+    "lemma": "sie"
+  },
+  {
+    "text": "morgens",
+    "lemma": "morgens"
+  },
+  {
+    "text": "auf",
+    "lemma": "auf"
+  },
+  {
+    "text": "?",
+    "lemma": "--"
+  },
+  {
+    "text": "Um",
+    "lemma": "um"
+  },
+  {
+    "text": "Ihr",
+    "lemma": "ihr"
+  },
+  {
+    "text": "Unternehmen",
+    "lemma": "Unternehmen"
+  },
+  {
+    "text": "besser",
+    "lemma": "gut"
+  },
+  {
+    "text": "zu",
+    "lemma": "zu"
+  },
+  {
+    "text": "machen",
+    "lemma": "machen"
+  },
+  {
+    "text": "?",
+    "lemma": "--"
+  },
+  {
+    "text": "Die",
+    "lemma": "der"
+  },
+  {
+    "text": "richtigen",
+    "lemma": "richtig"
+  },
+  {
+    "text": "Entscheidungen",
+    "lemma": "Entscheidung"
+  },
+  {
+    "text": "auf",
+    "lemma": "auf"
+  },
+  {
+    "text": "Basis",
+    "lemma": "Basis"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "aktuellen",
+    "lemma": "aktuell"
+  },
+  {
+    "text": "Daten",
+    "lemma": "Datum"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "Vorhersagen",
+    "lemma": "Vorhersag"
+  },
+  {
+    "text": "zu",
+    "lemma": "zu"
+  },
+  {
+    "text": "treffen",
+    "lemma": "treffen"
+  },
+  {
+    "text": "?",
+    "lemma": "--"
+  },
+  {
+    "text": "Sie",
+    "lemma": "sie"
+  },
+  {
+    "text": "wollen",
+    "lemma": "wollen"
+  },
+  {
+    "text": "Prozesse",
+    "lemma": "Prozeß"
+  },
+  {
+    "text": "verschlanken",
+    "lemma": "verschlanken"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "automatisieren",
+    "lemma": "automatisieren"
+  },
+  {
+    "text": "?",
+    "lemma": "--"
+  },
+  {
+    "text": "Sich",
+    "lemma": "sich"
+  },
+  {
+    "text": "auf",
+    "lemma": "auf"
+  },
+  {
+    "text": "Ihr",
+    "lemma": "ihr"
+  },
+  {
+    "text": "Geschäft",
+    "lemma": "Geschäft"
+  },
+  {
+    "text": "konzentrieren",
+    "lemma": "konzentrieren"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "nicht",
+    "lemma": "nicht"
+  },
+  {
+    "text": "auf",
+    "lemma": "auf"
+  },
+  {
+    "text": "Ihre",
+    "lemma": "ihr"
+  },
+  {
+    "text": "IT",
+    "lemma": "IT"
+  },
+  {
+    "text": "?",
+    "lemma": "--"
+  },
+  {
+    "text": "Die",
+    "lemma": "der"
+  },
+  {
+    "text": "Fachleute",
+    "lemma": "Fachleute"
+  },
+  {
+    "text": "der",
+    "lemma": "der"
+  },
+  {
+    "text": "OPITZ",
+    "lemma": "OPITZ"
+  },
+  {
+    "text": "CONSULTING",
+    "lemma": "CONSULTING"
+  },
+  {
+    "text": "Gruppe",
+    "lemma": "Gruppe"
+  },
+  {
+    "text": "unterstützen",
+    "lemma": "unterstützen"
+  },
+  {
+    "text": "Sie",
+    "lemma": "sie"
+  },
+  {
+    "text": "bei",
+    "lemma": "bei"
+  },
+  {
+    "text": "diesen",
+    "lemma": "dieser"
+  },
+  {
+    "text": "Aufgaben",
+    "lemma": "Aufgabe"
+  },
+  {
+    "text": "getreu",
+    "lemma": "getreu"
+  },
+  {
+    "text": "dem",
+    "lemma": "der"
+  },
+  {
+    "text": "Motto",
+    "lemma": "Motto"
+  },
+  {
+    "text": "„",
+    "lemma": "--"
+  },
+  {
+    "text": "Bauen",
+    "lemma": "bauen"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "Modernisieren",
+    "lemma": "Modernisier"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "Betreiben",
+    "lemma": "betreiben"
+  },
+  {
+    "text": "“",
+    "lemma": "--"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "Mehr",
+    "lemma": "mehr"
+  },
+  {
+    "text": "als",
+    "lemma": "als"
+  },
+  {
+    "text": "500",
+    "lemma": "500"
+  },
+  {
+    "text": "Beschäftigte",
+    "lemma": "beschäftigter"
+  },
+  {
+    "text": "an",
+    "lemma": "an"
+  },
+  {
+    "text": "9",
+    "lemma": "9"
+  },
+  {
+    "text": "Standorten",
+    "lemma": "Standort"
+  },
+  {
+    "text": "treten",
+    "lemma": "treten"
+  },
+  {
+    "text": "jeden",
+    "lemma": "jeder"
+  },
+  {
+    "text": "Tag",
+    "lemma": "Tag"
+  },
+  {
+    "text": "an",
+    "lemma": "an"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "um",
+    "lemma": "um"
+  },
+  {
+    "text": "Organisationen",
+    "lemma": "Organisation"
+  },
+  {
+    "text": "zu",
+    "lemma": "zu"
+  },
+  {
+    "text": "helfen",
+    "lemma": "helfen"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "ihr",
+    "lemma": "ihr"
+  },
+  {
+    "text": "Geschäft",
+    "lemma": "Geschäft"
+  },
+  {
+    "text": "mithilfe",
+    "lemma": "mithilfen"
+  },
+  {
+    "text": "von",
+    "lemma": "von"
+  },
+  {
+    "text": "IT",
+    "lemma": "IT"
+  },
+  {
+    "text": "erfolgreicher",
+    "lemma": "erfolgreich"
+  },
+  {
+    "text": "zu",
+    "lemma": "zu"
+  },
+  {
+    "text": "machen",
+    "lemma": "machen"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "Mit",
+    "lemma": "mit"
+  },
+  {
+    "text": "digitalen",
+    "lemma": "digital"
+  },
+  {
+    "text": "Lösungen",
+    "lemma": "Lösung"
+  },
+  {
+    "text": ",",
+    "lemma": "--"
+  },
+  {
+    "text": "die",
+    "lemma": "der"
+  },
+  {
+    "text": "dem",
+    "lemma": "der"
+  },
+  {
+    "text": "Menschen",
+    "lemma": "Mensch"
+  },
+  {
+    "text": "dienen",
+    "lemma": "dienen"
+  },
+  {
+    "text": "und",
+    "lemma": "und"
+  },
+  {
+    "text": "nicht",
+    "lemma": "nicht"
+  },
+  {
+    "text": "umgekehrt",
+    "lemma": "umgekehrt"
+  },
+  {
+    "text": ".",
+    "lemma": "--"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "Kontakt",
+    "lemma": "Kontakt"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "OPITZ",
+    "lemma": "OPITZ"
+  },
+  {
+    "text": "CONSULTING",
+    "lemma": "CONSULTING"
+  },
+  {
+    "text": "Deutschland",
+    "lemma": "Deutschland"
+  },
+  {
+    "text": "GmbH",
+    "lemma": "GmbH"
+  },
+  {
+    "text": "Christoph",
+    "lemma": "Christoph"
+  },
+  {
+    "text": "Pfinder",
+    "lemma": "Pfinder"
+  },
+  {
+    "text": "|",
+    "lemma": "|"
+  },
+  {
+    "text": "Senior",
+    "lemma": "Senior"
+  },
+  {
+    "text": "Manager",
+    "lemma": "Manager"
+  },
+  {
+    "text": "Solutions",
+    "lemma": "Solution"
+  },
+  {
+    "text": "Kirchstraße",
+    "lemma": "Kirchstraße"
+  },
+  {
+    "text": "6",
+    "lemma": "6"
+  },
+  {
+    "text": "|",
+    "lemma": "|"
+  },
+  {
+    "text": "51647",
+    "lemma": "51647"
+  },
+  {
+    "text": "Gummersbach",
+    "lemma": "Gummersbach"
+  },
+  {
+    "text": "E-Mail",
+    "lemma": "E-Mail"
+  },
+  {
+    "text": ":",
+    "lemma": "--"
+  },
+  {
+    "text": "christoph.pfinder@opitz-consulting.com",
+    "lemma": "Christoph.pfinder@opitz-consulting.com"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "©",
+    "lemma": "©"
+  },
+  {
+    "text": "OPITZ",
+    "lemma": "OPITZ"
+  },
+  {
+    "text": "CONSULTING",
+    "lemma": "CONSULTING"
+  },
+  {
+    "text": "Deutschland",
+    "lemma": "Deutschland"
+  },
+  {
+    "text": "GmbH",
+    "lemma": "GmbH"
+  },
+  {
+    "text": "2016",
+    "lemma": "2016"
+  },
+  {
+    "text": "Seite",
+    "lemma": "Seite"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "2",
+    "lemma": "2"
+  },
+  {
+    "text": "von",
+    "lemma": "von"
+  },
+  {
+    "text": "2",
+    "lemma": "2"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  },
+  {
+    "text": "Presseinfo",
+    "lemma": "Presseinfo"
+  },
+  {
+    "text": "\n\n",
+    "lemma": "\n\n"
+  }
+]
+2025-06-09 18:37:16,260 - INFO - Gesamtzahl generierter Lemmata: 579
+2025-06-09 18:37:16,260 - INFO - ----------------------------------------
+2025-06-09 18:37:16,260 - INFO - 
+--- SCHRITT 4: Robustes Vor-Chunking (Größe: 450, Überlappung: 100) ---
+2025-06-09 18:37:16,260 - INFO - Dokument wurde in 13 vorläufige Chunks aufgeteilt.
+2025-06-09 18:37:16,260 - INFO - 
+--- Ausgabe von SCHRITT 4 (Erstellte Chunks) ---
+2025-06-09 18:37:16,260 - INFO - 
+----- Chunk 1 / 13 -----
+2025-06-09 18:37:16,261 - INFO - ■■■ Digitale Service Manufaktur
+
+OPITZ CONSULTING UND STACKIT WERDEN CLOUD-PARTNER
+
+MIT STACKIT holt sich OPITZ CONSULTING einen souveränen deutschen Cloud- Provider mit ins Boot – mit Rechenzentren in Deutschland und Österreich
+
+ur STACKIT
+
+Gummersbach, 1. März 2024
+2025-06-09 18:37:16,261 - INFO - --------------------
+2025-06-09 18:37:16,261 - INFO - 
+----- Chunk 2 / 13 -----
+2025-06-09 18:37:16,261 - INFO - Seit dem 1. März 2024 bündeln OPITZ CONSULTING und STACKIT ihre Kräfte, um eine Allianz im Bereich Cloud-Infrastruktur und Cloud-Dienstleistungen zu schmieden. Diese Zusammenarbeit eröffnet den Kunden von OPITZ CONSULTING den Zugang zur STACKIT Cloud – einer deutschen, datensouveränen Cloud-Lösung, die eine leistungsstarke Alternative zu US-amerikanischen Hyperscalern darstellt. Mit der geballten Kraft von STACKIT's Cloud-Kompetenz und OPITZ
+2025-06-09 18:37:16,261 - INFO - --------------------
+2025-06-09 18:37:16,261 - INFO - 
+----- Chunk 3 / 13 -----
+2025-06-09 18:37:16,261 - INFO - Hyperscalern darstellt. Mit der geballten Kraft von STACKIT's Cloud-Kompetenz und OPITZ CONSULTING's Expertise in der IT-Modernisierung sind Unternehmen und Organisationen nun bestens ausgestattet, um ihre IT-Landschaften zukunftssicher zu gestalten.
+2025-06-09 18:37:16,261 - INFO - --------------------
+2025-06-09 18:37:16,262 - INFO - 
+----- Chunk 4 / 13 -----
+2025-06-09 18:37:16,262 - INFO - Als Professional Service Partner von STACKIT unterstützt OPITZ CONSULTING Unternehmen in allen Schritten ihrer Cloud-Journey und entwickelt, implementiert und betreibt kundenindividuelle Lösungen auf Basis der STACKIT Cloud. Das Herzstück der Partnerschaft ist die Vision, die individu- ellen Stärken beider Unternehmen zu bündeln, um Unternehmen eine nahtlose, effiziente und si- chere Cloud-Transformation zu ermöglichen.
+2025-06-09 18:37:16,262 - INFO - --------------------
+2025-06-09 18:37:16,262 - INFO - 
+----- Chunk 5 / 13 -----
+2025-06-09 18:37:16,262 - INFO - „Mit OPITZ CONSULTING haben wir einen starken Partner für unser Ökosystem gewonnen, der unseren Kunden eine hervorragende Beratung und Betreuung auf ihrer Cloud-Journey bietet“, sagt Benedikt Scherzinger, Head of STACKIT Partner Sales.
+
+OPITZ CONSULTING Deutschland GmbH 2016 Seite 1
+
+von 2
+
+Presseinfo
+2025-06-09 18:37:16,262 - INFO - --------------------
+2025-06-09 18:37:16,262 - INFO - 
+----- Chunk 6 / 13 -----
+2025-06-09 18:37:16,262 - INFO - OPITZ CONSULTING Deutschland GmbH 2016 Seite 1
+
+von 2
+
+Presseinfo
+
+Christoph Pfinder, Senior Manager Solutions bei OPITZ CONSULTING stimmt dem zu: „Wir sind begeistert von der Synergie mit STACKIT und der gemeinsamen Vision, die digitale Transformation von Unternehmen mit einer soliden, vertrauenswürdigen Basis voranzutreiben.“
+2025-06-09 18:37:16,262 - INFO - --------------------
+2025-06-09 18:37:16,262 - INFO - 
+----- Chunk 7 / 13 -----
+2025-06-09 18:37:16,263 - INFO - Pfinder betont: „Hier geht es um mehr als um eine Zusammenarbeit zweier Unternehmen – diese Partnerschaft ist ein Versprechen an unsere Kunden, die digitale Zukunft sicher, souverän und erfolgreich zu gestalten. Unsere geteilten Werte und unsere gemeinsame technische Vision werden diese Reise in außergewöhnlicher Weise prägen.“
+
+Über STACKIT
+2025-06-09 18:37:16,263 - INFO - --------------------
+2025-06-09 18:37:16,263 - INFO - 
+----- Chunk 8 / 13 -----
+2025-06-09 18:37:16,263 - INFO - STACKIT ist der Cloud- und Colocation-Provider der Schwarz Gruppe. Auch externe Partner und Kunden in der DACH-Region können sich bei der digitalen Transformation auf die Cloud-Services verlassen, von denen die Unternehmen der Schwarz Gruppe seit Jahren profitieren. Mit einer tech- nischen Infrastruktur ausschließlich in Deutschland und Österreich bietet STACKIT eine weit über den Marktstandard hinausgehende Datensouveränität. Das Team mit
+2025-06-09 18:37:16,263 - INFO - --------------------
+2025-06-09 18:37:16,263 - INFO - 
+----- Chunk 9 / 13 -----
+2025-06-09 18:37:16,263 - INFO - bietet STACKIT eine weit über den Marktstandard hinausgehende Datensouveränität. Das Team mit Hauptsitz im schwäbischen Neckarsulm ebnet so den Weg in ein unabhängiges Europa – digital, führend. Als Teil von Schwarz Digits gehört STACKIT zur IT- und Digitalsparte der Schwarz Gruppe.
+2025-06-09 18:37:16,263 - INFO - --------------------
+2025-06-09 18:37:16,264 - INFO - 
+----- Chunk 10 / 13 -----
+2025-06-09 18:37:16,264 - INFO - Über OPITZ CONSULTING
+2025-06-09 18:37:16,264 - INFO - --------------------
+2025-06-09 18:37:16,264 - INFO - 
+----- Chunk 11 / 13 -----
+2025-06-09 18:37:16,265 - INFO - Warum stehen Sie morgens auf? Um Ihr Unternehmen besser zu machen? Die richtigen Entscheidungen auf Basis der aktuellen Daten und Vorhersagen zu treffen? Sie wollen Prozesse verschlanken und automatisieren? Sich auf Ihr Geschäft konzentrieren und nicht auf Ihre IT? Die Fachleute der OPITZ CONSULTING Gruppe unterstützen Sie bei diesen Aufgaben getreu dem Motto „Bauen, Modernisieren und Betreiben“. Mehr als 500 Beschäftigte an 9 Standorten treten
+2025-06-09 18:37:16,265 - INFO - --------------------
+2025-06-09 18:37:16,265 - INFO - 
+----- Chunk 12 / 13 -----
+2025-06-09 18:37:16,265 - INFO - dem Motto „Bauen, Modernisieren und Betreiben“. Mehr als 500 Beschäftigte an 9 Standorten treten jeden Tag an, um Organisationen zu helfen, ihr Geschäft mithilfe von IT erfolgreicher zu machen. Mit digitalen Lösungen, die dem Menschen dienen und nicht umgekehrt.
+2025-06-09 18:37:16,265 - INFO - --------------------
+2025-06-09 18:37:16,265 - INFO - 
+----- Chunk 13 / 13 -----
+2025-06-09 18:37:16,265 - INFO - Kontakt
+
+OPITZ CONSULTING Deutschland GmbH Christoph Pfinder | Senior Manager Solutions Kirchstraße 6 | 51647 Gummersbach E-Mail: christoph.pfinder@opitz-consulting.com
+
+© OPITZ CONSULTING Deutschland GmbH 2016 Seite
+
+2 von 2
+
+Presseinfo
+2025-06-09 18:37:16,265 - INFO - --------------------
+2025-06-09 18:37:16,265 - INFO - 
+--- SCHRITT 5: Starte Anreicherung für 13 Chunks mit DeepSeek ---
+2025-06-09 18:37:16,265 - INFO - Verarbeite Chunk 1/13...
+2025-06-09 18:37:16,266 - INFO - Sende Text (Länge: 267 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:37:28,617 - INFO - Sende Text (Länge: 267 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:37:30,805 - INFO - Verarbeite Chunk 2/13...
+2025-06-09 18:37:30,805 - INFO - Sende Text (Länge: 445 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:37:34,570 - INFO - Sende Text (Länge: 445 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:37:36,857 - INFO - Verarbeite Chunk 3/13...
+2025-06-09 18:37:36,857 - INFO - Sende Text (Länge: 250 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:37:38,876 - INFO - Sende Text (Länge: 250 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:37:40,896 - INFO - Verarbeite Chunk 4/13...
+2025-06-09 18:37:40,896 - INFO - Sende Text (Länge: 423 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:37:43,586 - INFO - Sende Text (Länge: 423 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:37:45,908 - INFO - Verarbeite Chunk 5/13...
+2025-06-09 18:37:45,908 - INFO - Sende Text (Länge: 302 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:37:48,208 - INFO - Sende Text (Länge: 302 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:37:50,368 - INFO - Verarbeite Chunk 6/13...
+2025-06-09 18:37:50,368 - INFO - Sende Text (Länge: 329 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:37:52,323 - INFO - Sende Text (Länge: 329 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:37:54,380 - INFO - Verarbeite Chunk 7/13...
+2025-06-09 18:37:54,380 - INFO - Sende Text (Länge: 343 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:37:56,382 - INFO - Sende Text (Länge: 343 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:37:58,592 - INFO - Verarbeite Chunk 8/13...
+2025-06-09 18:37:58,592 - INFO - Sende Text (Länge: 443 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:38:00,934 - INFO - Sende Text (Länge: 443 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:38:02,326 - INFO - Verarbeite Chunk 9/13...
+2025-06-09 18:38:02,326 - INFO - Sende Text (Länge: 283 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:38:04,636 - INFO - Sende Text (Länge: 283 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:38:06,354 - INFO - Verarbeite Chunk 10/13...
+2025-06-09 18:38:06,354 - INFO - Sende Text (Länge: 21 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:38:08,183 - INFO - Sende Text (Länge: 21 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:38:09,643 - INFO - Verarbeite Chunk 11/13...
+2025-06-09 18:38:09,643 - INFO - Sende Text (Länge: 448 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:38:12,085 - INFO - Sende Text (Länge: 448 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:38:14,001 - INFO - Verarbeite Chunk 12/13...
+2025-06-09 18:38:14,001 - INFO - Sende Text (Länge: 262 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:38:16,594 - INFO - Sende Text (Länge: 262 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:38:17,936 - INFO - Verarbeite Chunk 13/13...
+2025-06-09 18:38:17,936 - INFO - Sende Text (Länge: 237 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:38:19,822 - INFO - Sende Text (Länge: 237 Zeichen) zur DeepSeek-Anreicherung...
+2025-06-09 18:38:21,420 - INFO - Anreicherung abgeschlossen. 13 Chunks bereit für Embedding.
+2025-06-09 18:38:21,421 - INFO - 
+--- Ausgabe von SCHRITT 5 (Erster angereicherter Chunk) ---
+2025-06-09 18:38:21,421 - INFO - {
+  "original_chunk": "■■■ Digitale Service Manufaktur\n\nOPITZ CONSULTING UND STACKIT WERDEN CLOUD-PARTNER\n\nMIT STACKIT holt sich OPITZ CONSULTING einen souveränen deutschen Cloud- Provider mit ins Boot – mit Rechenzentren in Deutschland und Österreich\n\nur STACKIT\n\nGummersbach, 1. März 2024",
+  "summary": "",
+  "keywords": [],
+  "questions": []
+}
+2025-06-09 18:38:21,421 - INFO - 
+--- SCHRITT 6: Sende 13 angereicherte Chunks an den Embedding-Dienst ---
+2025-06-09 18:38:21,421 - INFO - Sende 13 angereicherte Chunks an den Embedding-Dienst.
+2025-06-09 18:38:22,912 - ERROR - 
+--- Fehler/Warnung vom Embedding-Dienst in SCHRITT 6 ---
+2025-06-09 18:38:22,913 - ERROR - {
+  "status": "error",
+  "message": "Fehler beim Speichern in ChromaDB: Error getting collection: Collection [32581797-026c-4819-b4fb-0251381e2956] does not exists.",
+  "num_embeddings_generated": 13,
+  "num_docs_added_to_db": 0,
+  "failed_ids": [
+    "doc_test_oc.pdf_chunk_0",
+    "doc_test_oc.pdf_chunk_1",
+    "doc_test_oc.pdf_chunk_2",
+    "doc_test_oc.pdf_chunk_3",
+    "doc_test_oc.pdf_chunk_4",
+    "doc_test_oc.pdf_chunk_5",
+    "doc_test_oc.pdf_chunk_6",
+    "doc_test_oc.pdf_chunk_7",
+    "doc_test_oc.pdf_chunk_8",
+    "doc_test_oc.pdf_chunk_9",
+    "doc_test_oc.pdf_chunk_10",
+    "doc_test_oc.pdf_chunk_11",
+    "doc_test_oc.pdf_chunk_12"
+  ]
+}
+2025-06-09 18:38:22,913 - INFO - 
+========== PIPELINE ENDE ==========
