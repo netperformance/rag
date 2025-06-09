@@ -1,4 +1,5 @@
 # --- main.py (Orchestrator) ---
+# FINALE VERSION v3: Behält das optimierte Chunking bei und implementiert eine saubere, vollständige Protokollierung.
 
 import requests
 import logging
@@ -6,9 +7,10 @@ import json
 import os
 import sys
 from langdetect import detect, LangDetectException
-from typing import Optional # Dies ist wichtig und sollte am Anfang der Datei sein
+from typing import Optional, List, Dict, Any
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-# Helper function to deep merge dictionaries (required for nested configs)
+# Hilfsfunktion zum tiefen Zusammenführen von Dictionaries
 def deep_update(base_dict, update_dict):
     for key, value in update_dict.items():
         if isinstance(value, dict) and key in base_dict and isinstance(base_dict[key], dict):
@@ -16,7 +18,7 @@ def deep_update(base_dict, update_dict):
         else:
             base_dict[key] = value
 
-# --- Configuration Loading ---
+# --- Konfigurationsladen ---
 CONFIG_FILE = "config.json"
 DEFAULT_CONFIG = {
     "nlp_model_config": {
@@ -30,71 +32,78 @@ DEFAULT_CONFIG = {
         "structuring_service": "http://127.0.0.1:8001/structure-pdf/",
         "nlp_service": "http://127.0.0.1:8002/process/",
         "language_detection_service": "http://127.0.0.1:8000/detect-language",
-        "deepseek_enrichment_service": "http://127.0.0.1:8003/enrich-text/" # Neue URL
+        "deepseek_enrichment_service": "http://127.0.0.1:8003/enrich-text/",
+        "embedding_service": "http://127.0.0.1:8004/generate-embeddings/"
     },
     "orchestrator_config": {
         "pdf_file_to_check": "test_oc.pdf",
-        "log_file_path": "logging.txt"
+        "log_file_path": "logging.txt",
+        # Optimierte Chunk-Größen für eine gute RAG-Qualität
+        "chunk_size": 450,
+        "chunk_overlap": 100
     },
-    "logging_config": { # Standard-Logging-Konfiguration
-        "enabled": True, # Korrigiert: 'true' zu 'True'
+    "logging_config": {
+        "enabled": True,
         "level": "INFO"
     },
-    "ollama_config": { # Hinzugefügt, da config von hier gelesen wird
+    "ollama_config": {
         "ollama_base_url": "http://localhost:11434",
         "deepseek_model_name": "deepseek-coder-v2:latest"
+    },
+    "embedding_config": {
+        "model_name": "intfloat/multilingual-e5-large",
+        "chromadb_path": "./chroma_db",
+        "collection_name": "rag_documents"
+    },
+    "deepseek_prompts": {
+        "chunk_summary_keywords_prompt": "Fasse den folgenden Textabschnitt prägnant zusammen (max. 3 Sätze, konzentriere dich auf die Kernaussage) und extrahiere 3-5 Schlüsselbegriffe als JSON-Array. Das Ergebnis muss ein JSON-Objekt sein mit den Schlüsseln 'summary' (STRING) und 'keywords' (JSON-Array von Strings). Gib nur das JSON-Objekt zurück.",
+        "chunk_questions_prompt": "Generiere 2-3 prägnante Fragen, die durch den folgenden Textabschnitt beantwortet werden können. Gib die Fragen als JSON-Array von Strings zurück. Gib nur das JSON-Array zurück."
     }
 }
 
 config = DEFAULT_CONFIG
 
 try:
-    with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
-        loaded_config = json.load(f)
-        deep_update(config, loaded_config)
-    logging.info(f"Konfiguration aus '{CONFIG_FILE}' erfolgreich geladen.")
-except FileNotFoundError:
-    logging.warning(f"Konfigurationsdatei '{CONFIG_FILE}' nicht gefunden. Verwende Standardwerte.")
-except json.JSONDecodeError:
-    logging.error(f"Fehler beim Parsen der Konfigurationsdatei '{CONFIG_FILE}'. Überprüfen Sie das JSON-Format. Verwende Standardwerte.")
+    if os.path.exists(CONFIG_FILE):
+        with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
+            loaded_config = json.load(f)
+            deep_update(config, loaded_config)
 except Exception as e:
-    logging.error(f"Unerwarteter Fehler beim Laden der Konfiguration: {e}. Verwende Standardwerte.")
+    # Hier verwenden wir print, da das Logging erst danach konfiguriert wird.
+    print(f"Fehler beim Laden der Konfiguration: {e}. Verwende Standardwerte.")
 
 # Konfigurationswerte extrahieren
 STRUCTURING_SERVICE_URL = config["service_urls"]["structuring_service"]
 NLP_SERVICE_URL = config["service_urls"]["nlp_service"]
-DEEPSEEK_ENRICHMENT_SERVICE_URL = config["service_urls"]["deepseek_enrichment_service"] # NEU
+DEEPSEEK_ENRICHMENT_SERVICE_URL = config["service_urls"]["deepseek_enrichment_service"]
+EMBEDDING_SERVICE_URL = config["service_urls"]["embedding_service"]
 PDF_FILE_TO_CHECK = config["orchestrator_config"]["pdf_file_to_check"]
 LOG_FILE_PATH = config["orchestrator_config"]["log_file_path"]
+CHUNK_SIZE = config["orchestrator_config"]["chunk_size"]
+CHUNK_OVERLAP = config["orchestrator_config"]["chunk_overlap"]
 
-# Logging-Konfiguration extrahieren
-LOGGING_ENABLED = config["logging_config"]["enabled"]
-LOGGING_LEVEL_STR = config["logging_config"]["level"].upper() # Stellen Sie sicher, dass es Großbuchstaben sind
+PROMPT_SUMMARY_KEYWORDS = config["deepseek_prompts"]["chunk_summary_keywords_prompt"]
+PROMPT_QUESTIONS = config["deepseek_prompts"]["chunk_questions_prompt"]
 
-# Das Logging-Level-Mapping
-LOGGING_LEVELS = {
-    "DEBUG": logging.DEBUG,
-    "INFO": logging.INFO,
-    "WARNING": logging.WARNING,
-    "ERROR": logging.ERROR,
-    "CRITICAL": logging.CRITICAL
-}
+# KORRIGIERT: Saubere Logging-Konfiguration, die alles in die Datei schreibt.
+log_level_str = config["logging_config"]["level"].upper()
+log_level = getattr(logging, log_level_str, logging.INFO)
 
-# Bestimmen Sie das tatsächliche Logging-Level
-if LOGGING_ENABLED:
-    log_level = LOGGING_LEVELS.get(LOGGING_LEVEL_STR, logging.INFO) # Standardmäßig INFO, falls ungültig
-else:
-    log_level = logging.CRITICAL # Setzt das Level auf CRITICAL, um andere Log-Nachrichten zu unterdrücken
-
-# --- Setup Logging ---
-# Löschen Sie alle vorhandenen Handler, um doppelte Ausgaben zu vermeiden, falls logging.basicConfig mehrfach aufgerufen wird
+# Entferne alle vorhandenen Handler, um Doppel-Logging zu vermeiden
 for handler in logging.root.handlers[:]:
     logging.root.removeHandler(handler)
-logging.basicConfig(level=log_level, format='%(levelname)s: %(message)s')
+
+logging.basicConfig(
+    level=log_level,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(LOG_FILE_PATH, mode='w', encoding='utf-8'),
+        logging.StreamHandler(sys.stdout)  # Damit Logs auch in der Konsole erscheinen
+    ]
+)
 
 
 def get_structured_data_from_service(file_path: str):
-    """Sends a PDF file to the structuring service and returns the structured data."""
     logging.info(f"Sende '{file_path}' an den Strukturierungsdienst unter {STRUCTURING_SERVICE_URL}")
     try:
         with open(file_path, "rb") as f:
@@ -107,26 +116,21 @@ def get_structured_data_from_service(file_path: str):
         return [{"error": "Structuring service unavailable"}]
 
 def detect_text_language(text: str) -> str:
-    """Erkennt die Sprache des gegebenen Textes."""
     try:
         language = detect(text)
         logging.info(f"Sprache des Textes erkannt: {language}")
         return language
     except LangDetectException:
         logging.warning("Sprache konnte nicht zuverlässig erkannt werden, standardmäßig auf Deutsch gesetzt.")
-        return "de" # Standard auf Deutsch
+        return "de"
     except Exception as e:
         logging.error(f"Unerwarteter Fehler bei der Spracherkennung: {e}")
-        return "de" # Standard auf Deutsch im Fehlerfall
+        return "de"
 
 def process_text_with_nlp_service(text: str, language: Optional[str] = None):
-    """Sendet einen Textblock an den NLP-Dienst zur Verarbeitung mit optionaler Sprachangabe."""
     logging.info(f"Sende Text an NLP-Dienst zur Verarbeitung (Sprache: {language if language else 'Autoerkennung'})...")
     try:
-        payload = {"text": text}
-        if language:
-            payload["language"] = language
-        
+        payload = {"text": text, "language": language} if language else {"text": text}
         response = requests.post(NLP_SERVICE_URL, json=payload, timeout=120)
         response.raise_for_status()
         return response.json()
@@ -134,109 +138,133 @@ def process_text_with_nlp_service(text: str, language: Optional[str] = None):
         logging.error(f"Verbindung zum NLP-Dienst fehlgeschlagen: {e}")
         return {"error": "NLP service unavailable"}
 
-# NEUE FUNKTION: DeepSeek Anreicherungsdienst aufrufen
-def call_deepseek_enrichment_service(text: str, task: str = "chunk_and_summarize"):
-    """Ruft den DeepSeek Anreicherungsdienst auf."""
-    logging.info(f"Sende Text zur DeepSeek-Anreicherung (Task: {task})...")
-    payload = {"text": text, "task": task}
+def call_deepseek_enrichment_service(text_to_process: str, prompt_content: str):
+    logging.info(f"Sende Text (Länge: {len(text_to_process)} Zeichen) zur DeepSeek-Anreicherung...")
+    payload = {"text": text_to_process, "prompt_content": prompt_content}
     try:
-        response = requests.post(DEEPSEEK_ENRICHMENT_SERVICE_URL, json=payload, timeout=600) # Längeres Timeout
+        response = requests.post(DEEPSEEK_ENRICHMENT_SERVICE_URL, json=payload, timeout=900)
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
         logging.error(f"Fehler bei der Verbindung zum DeepSeek Anreicherungsdienst: {e}")
         return {"error": "DeepSeek enrichment service unavailable"}
 
+def call_embedding_service(enriched_chunks: List[Dict[str, Any]], nlp_entities: List[Dict[str, str]], nlp_lemmas: List[Dict[str, str]]):
+    logging.info(f"Sende {len(enriched_chunks)} angereicherte Chunks an den Embedding-Dienst.")
+    
+    embedding_request_items = []
+    for i, chunk_data in enumerate(enriched_chunks):
+        chunk_id = f"doc_{os.path.basename(PDF_FILE_TO_CHECK)}_chunk_{i}" 
+        text_for_embedding = chunk_data.get("original_chunk", "")
+        
+        metadata = chunk_data.copy()
+        metadata.update({
+            "source_document": os.path.basename(PDF_FILE_TO_CHECK),
+            "chunk_index": i,
+            "nlp_entities": nlp_entities,
+            "nlp_lemmas": nlp_lemmas
+        })
 
-# --- Main Execution Logic ---
+        embedding_request_items.append({
+            "id": chunk_id,
+            "text": text_for_embedding,
+            "metadata": metadata
+        })
+
+    try:
+        response = requests.post(EMBEDDING_SERVICE_URL, json=embedding_request_items, timeout=600)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Fehler bei der Verbindung zum Embedding-Dienst: {e}")
+        return {"error": "Embedding service unavailable"}
+
+
+# --- Hauptausführungslogik ---
 if __name__ == '__main__':
-    with open(LOG_FILE_PATH, 'w', encoding='utf-8') as log_file:
-        original_stdout = sys.stdout
-        sys.stdout = log_file
+    try:
+        logging.info("\n" + "="*10 + " PIPELINE START " + "="*10)
 
-        try:
-            print("\n" + "="*10 + " PIPELINE START " + "="*10)
+        # SCHRITT 1 & 2: Strukturierung und Textextraktion
+        logging.info("\n--- SCHRITT 1 & 2: PDF Strukturierung und Textextraktion ---")
+        structured_elements = get_structured_data_from_service(PDF_FILE_TO_CHECK)
+        if not (structured_elements and "error" not in structured_elements[0]):
+            logging.error("\n--- FEHLER: Pipeline gestoppt wegen Fehler im Strukturierungsdienst. ---")
+            logging.error(json.dumps(structured_elements, indent=2, ensure_ascii=False))
+            sys.exit(1)
+        
+        text_to_process = "".join(
+            element.get("text", "") + "\n\n" 
+            for element in structured_elements 
+            if element.get("type") in ["NarrativeText", "UncategorizedText", "ListItem", "Title"]
+        )
+        if not text_to_process.strip():
+            logging.error("\n--- FEHLER: Kein verarbeitbarer Text im Dokument gefunden. ---")
+            sys.exit(1)
 
-            print("\n--- SCHRITT 1: PDF Strukturierung ---")
-            structured_elements = get_structured_data_from_service(PDF_FILE_TO_CHECK)
+        # SCHRITT 3: Basis-NLP-Verarbeitung (einmal für das ganze Dokument)
+        logging.info("\n--- SCHRITT 3: Basis-NLP-Verarbeitung (Gesamtdokument) ---")
+        detected_language = detect_text_language(text_to_process)
+        nlp_results = process_text_with_nlp_service(text_to_process, detected_language)
+        if not nlp_results or "error" in nlp_results:
+            logging.error("\n--- FEHLER: Pipeline gestoppt wegen Fehler im NLP-Dienst. ---")
+            logging.error(json.dumps(nlp_results, indent=2, ensure_ascii=False))
+            sys.exit(1)
+        
+        base_nlp_entities = nlp_results.get("entities", [])
+        base_nlp_lemmas = nlp_results.get("lemmas", [])
+        logging.info(f"Basis-NLP abgeschlossen. {len(base_nlp_entities)} Entitäten und {len(base_nlp_lemmas)} Lemmata gefunden.")
+        
+        # SCHRITT 4: Robustes Vor-Chunking mit RecursiveCharacterTextSplitter
+        logging.info(f"\n--- SCHRITT 4: Robustes Vor-Chunking (Größe: {CHUNK_SIZE}, Überlappung: {CHUNK_OVERLAP}) ---")
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP, length_function=len)
+        preliminary_chunks = text_splitter.split_text(text_to_process)
+        logging.info(f"Dokument wurde in {len(preliminary_chunks)} vorläufige Chunks aufgeteilt.")
 
-            if structured_elements and not ("error" in structured_elements[0] if structured_elements else False): # Robusterer Check
-                print("\n--- Ausgabe von SCHRITT 1 (Vollständige strukturierte Elemente) ---")
-                print(json.dumps(structured_elements, indent=2, ensure_ascii=False))
-                print(f"Gesamtzahl strukturierter Elemente: {len(structured_elements)}")
-                print("-" * 40)
+        # SCHRITT 5: Semantische Anreicherung für jeden einzelnen Chunk
+        logging.info(f"\n--- SCHRITT 5: Starte Anreicherung für {len(preliminary_chunks)} Chunks mit DeepSeek ---")
+        all_enriched_chunks = []
+        for i, chunk_text in enumerate(preliminary_chunks):
+            logging.info(f"Verarbeite Chunk {i + 1}/{len(preliminary_chunks)}...")
 
-                print("\n--- SCHRITT 2: Textextraktion und Kombination für NLP-Analyse ---")
-                text_to_process = ""
-                for element in structured_elements:
-                    if element.get("type") in ["NarrativeText", "UncategorizedText", "ListItem", "Title"]:
-                        text_to_process += element.get("text", "") + "\n\n"
-                
-                if text_to_process.strip():
-                    detected_language = detect_text_language(text_to_process)
-                    print(f"Erkannte Sprache für NLP-Verarbeitung: {detected_language}")
-
-                    print("\n--- SCHRITT 3: Basis-NLP-Verarbeitung (spaCy/HuggingFace NER) ---")
-                    nlp_results = process_text_with_nlp_service(text_to_process, detected_language)
-                    
-                    if nlp_results and "error" not in nlp_results:
-                        print("\n--- Ausgabe von SCHRITT 3 (NLP-Ergebnisse) ---")
-                        print(f"Verarbeitete Sprache vom NLP-Dienst: {nlp_results.get('processed_language', 'Unbekannt')}")
-                        print("\n--- 3.1: Benannte Entitäten (NER) ---")
-                        entities = nlp_results.get("entities", [])
-                        if entities:
-                            for ent in entities:
-                                print(f"- Text: '{ent.get('text', '')}',  Label: {ent.get('label', '')}")
-                        else:
-                            print("Keine benannten Entitäten im verarbeiteten Text gefunden.")
-
-                        print("\n--- 3.2: Lemmatisierung (Vollständige Liste der Token) ---")
-                        lemmas = nlp_results.get("lemmas", [])
-                        if lemmas:
-                            print(json.dumps(lemmas, indent=2, ensure_ascii=False))
-                            print(f"Gesamtzahl generierter Lemmata: {len(lemmas)}")
-                        else:
-                            print("Keine Lemmata generiert.")
-                        print("-" * 40)
-
-                        # NEU: SCHRITT 4: Intelligentes Chunking & Anreicherung mit DeepSeek
-                        print("\n--- SCHRITT 4: Intelligentes Chunking & Anreicherung mit DeepSeek ---")
-                        deepseek_enrichment_results = call_deepseek_enrichment_service(text_to_process, task="chunk_and_summarize")
-                        
-                        if deepseek_enrichment_results and deepseek_enrichment_results.get("status") == "success":
-                            print("\n--- Ausgabe von SCHRITT 4 (DeepSeek Anreicherungsergebnisse) ---")
-                            # Zeige die ersten 2 angereicherten Chunks zur Überprüfung an
-                            print(json.dumps(deepseek_enrichment_results["results"][:2] if deepseek_enrichment_results["results"] else [], indent=2, ensure_ascii=False))
-                            print(f"Gesamtzahl der von DeepSeek generierten Chunks: {len(deepseek_enrichment_results['results'])}")
-                            print("-" * 40)
-
-                            # HIER WÜRDE DER NÄCHSTE SCHRITT KOMMEN:
-                            # 5. Embedding-Generierung (mit einem spezialisierten Embedding-Modell)
-                            #    Loop durch deepseek_enrichment_results["results"]
-                            #    Für jeden 'original_chunk' (oder 'summary') das Embedding generieren
-                            # 6. Speicherung in der Vektordatenbank
-                            #    Speichere 'original_chunk', 'summary', 'keywords' und das Embedding
-                            #    (und alle Metadaten aus früheren Schritten wie NER-Entitäten, Sprache)
-
-                        else:
-                            print("\n--- Fehler/Warnung vom DeepSeek Anreicherungsdienst in SCHRITT 4 ---")
-                            print(json.dumps(deepseek_enrichment_results, indent=2, ensure_ascii=False))
-                            print("-" * 40)
-
-                    else:
-                        print("\n--- Fehler vom NLP-Dienst in SCHRITT 3 ---")
-                        print(json.dumps(nlp_results, indent=2, ensure_ascii=False))
-                        print("-" * 40)
-                else:
-                    print("\n--- Kein verarbeitbarer Text im Dokument nach der Strukturierung gefunden (SCHRITT 2 fehlgeschlagen) ---")
-                    print("-" * 40)
-            else:
-                print("\n--- Fehler vom Strukturierungsdienst in SCHRITT 1 ---")
-                print(json.dumps(structured_elements, indent=2, ensure_ascii=False))
-                print("-" * 40)
+            current_chunk_data = {"original_chunk": chunk_text, "summary": "", "keywords": [], "questions": []}
             
-            print("\n" + "="*10 + " PIPELINE ENDE " + "="*10)
+            # 5.1: Zusammenfassung & Keywords
+            summary_prompt = f"{PROMPT_SUMMARY_KEYWORDS}\n\nText: {chunk_text}"
+            summary_res = call_deepseek_enrichment_service(chunk_text, summary_prompt)
+            if summary_res and summary_res.get("status") == "success" and isinstance(summary_res.get("results"), dict):
+                current_chunk_data["summary"] = summary_res["results"].get("summary", "")
+                current_chunk_data["keywords"] = summary_res["results"].get("keywords", [])
+            
+            # 5.2: Fragen
+            questions_prompt = f"{PROMPT_QUESTIONS}\n\nText: {chunk_text}"
+            questions_res = call_deepseek_enrichment_service(chunk_text, questions_prompt)
+            if questions_res and questions_res.get("status") == "success" and isinstance(questions_res.get("results"), list):
+                current_chunk_data["questions"] = questions_res["results"]
+            
+            all_enriched_chunks.append(current_chunk_data)
 
-        finally:
-            sys.stdout = original_stdout
-            logging.info(f"Vollständige Pipeline-Ausgabe in '{LOG_FILE_PATH}' geschrieben")
+        logging.info(f"Anreicherung abgeschlossen. {len(all_enriched_chunks)} Chunks bereit für Embedding.")
+        if all_enriched_chunks:
+            logging.info("\n--- Ausgabe von SCHRITT 5 (Erster angereicherter Chunk) ---")
+            logging.info(json.dumps(all_enriched_chunks[0], indent=2, ensure_ascii=False))
+
+        # SCHRITT 6: Embedding-Generierung für die angereicherten Chunks
+        if all_enriched_chunks:
+            logging.info(f"\n--- SCHRITT 6: Sende {len(all_enriched_chunks)} angereicherte Chunks an den Embedding-Dienst ---")
+            embedding_response = call_embedding_service(all_enriched_chunks, base_nlp_entities, base_nlp_lemmas)
+            
+            if embedding_response and embedding_response.get("status") == "success":
+                logging.info("\n--- Ausgabe von SCHRITT 6 (Embedding-Ergebnisse) ---")
+                logging.info(json.dumps(embedding_response, indent=2, ensure_ascii=False))
+            else:
+                logging.error("\n--- Fehler/Warnung vom Embedding-Dienst in SCHRITT 6 ---")
+                logging.error(json.dumps(embedding_response, indent=2, ensure_ascii=False))
+        else:
+            logging.warning("\n--- SCHRITT 6 übersprungen: Keine Chunks nach Anreicherung vorhanden. ---")
+
+        logging.info("\n" + "="*10 + " PIPELINE ENDE " + "="*10)
+
+    except Exception as e:
+        logging.critical("Ein unerwarteter, kritischer Fehler ist in der Haupt-Pipeline aufgetreten.", exc_info=True)
+

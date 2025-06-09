@@ -38,3 +38,24 @@ sentencepiece
 
 # PyTorch is the deep learning backend
 torch
+
+# For vector databases and similarity search
+sentence-transformers 
+
+# For managing and querying vector databases
+chromadb
+
+# For text splitting and chunking
+langchain-text-splitters
+
+# For dimensionality reduction and visualization
+umap-learn
+
+# For plotting and visualization
+matplotlib 
+
+# For numerical operations and data manipulation
+numpy
+
+# For JSON manipulation and validation
+json_repair

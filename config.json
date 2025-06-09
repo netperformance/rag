@@ -10,7 +10,8 @@
     "structuring_service": "http://127.0.0.1:8001/structure-pdf/",
     "nlp_service": "http://127.0.0.1:8002/process/",
     "language_detection_service": "http://127.0.0.1:8000/detect-language",
-    "deepseek_enrichment_service": "http://127.0.0.1:8003/enrich-text/"
+    "deepseek_enrichment_service": "http://127.0.0.1:8003/enrich-text/",
+    "embedding_service": "http://127.0.0.1:8004/generate-embeddings/"
   },
   "orchestrator_config": {
     "pdf_file_to_check": "test_oc.pdf",
@@ -23,5 +24,17 @@
   "ollama_config": {
     "ollama_base_url": "http://localhost:11434",
     "deepseek_model_name": "deepseek-coder-v2:latest"
+  },
+  "embedding_config": {
+    "model_name": "intfloat/multilingual-e5-large",
+    "chromadb_path": "./chroma_db",
+    "collection_name": "rag_documents"
+  },
+  "deepseek_prompts": {
+    "semantic_chunking_prompt": "Teile das folgende Dokument in semantisch kohärente Abschnitte (Chunks). Jeder Abschnitt sollte einen vollständigen Gedanken oder ein Thema behandeln. Gib das Ergebnis als eine JSON-Liste von Objekten zurück. Jedes Objekt muss einen Schlüssel 'original_chunk' enthalten, dessen Wert der Text des Abschnitts ist. Es darf KEINEN weiteren Text oder Erklärungen geben, nur das JSON-Array. Achte strikt auf das JSON-Format und das Escaping von Anführungszeichen innerhalb der Strings.\n\nDokument:\n{document_text}",
+    "chunk_summary_keywords_prompt": "Fasse den folgenden Textabschnitt prägnant zusammen (max. 3 Sätze, konzentriere dich auf die Kernaussage) und extrahiere 3-5 Schlüsselbegriffe als JSON-Array. Das Ergebnis sollte ein JSON-Objekt sein, wobei die Schlüssel 'summary' und 'keywords' (als JSON-Array von Strings) enthalten sind. Der Originaltext wird als 'original_chunk' übergeben.",
+    "chunk_questions_prompt": "Generiere 2-3 prägnante Fragen, die durch den folgenden Textabschnitt beantwortet werden können. Gib die Fragen als JSON-Array von Strings zurück. Der Originaltext wird als 'original_chunk' übergeben.",
+    "context_redundancy_prompt": "Extrahiere die 1-3 wichtigsten Sätze oder Phrasen aus dem folgenden Textabschnitt, die den Kern des Inhalts am besten zusammenfassen und zusätzlichen, wichtigen Kontext bieten. Gib die Ausgabe als JSON-Objekt mit dem Schlüssel 'key_sentences' zurück, dessen Wert ein JSON-Array von Strings ist. Der Originaltext wird als 'original_chunk' übergeben.",
+    "intelligent_metadata_prompt": "Analysiere den folgenden Textabschnitt und extrahiere detaillierte Metadaten. Gib die Ausgabe als JSON-Objekt zurück mit den Schlüsseln 'main_topic' (STRING, z.B. 'Finanzen', 'Technologie', 'Partnerschaften' oder 'Allgemein'), 'sentiment' (STRING, z.B. 'Positiv', 'Negativ', 'Neutral') und 'named_entities' (JSON-Array von Objekten mit 'name' und 'type' wie 'PERSON', 'ORGANIZATION', 'LOCATION'). Der Originaltext wird als 'original_chunk' übergeben."
   }
 }
