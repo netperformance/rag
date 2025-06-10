@@ -1,4 +1,31 @@
 {
+    "microservices": [
+    {
+      "name": "Language Service",
+      "module": "language_detection_service",
+      "port": 8000
+    },
+    {
+      "name": "Structuring Service",
+      "module": "structuring_service",
+      "port": 8001
+    },
+    {
+      "name": "NLP Service",
+      "module": "nlp_service",
+      "port": 8002
+    },
+    {
+      "name": "DeepSeek Service",
+      "module": "deepseek_enrichment_service",
+      "port": 8003
+    },
+    {
+      "name": "Embedding Service",
+      "module": "embedding_service",
+      "port": 8004
+    }
+  ],
   "nlp_model_config": {
     "ner_model_name_de": "domischwimmbeck/bert-base-german-cased-fine-tuned-ner",
     "lemmatization_model_name_de": "de_core_news_sm",

@@ -59,3 +59,6 @@ numpy
 
 # For JSON manipulation and validation
 json_repair
+
+# For system monitoring and process management
+psutil
