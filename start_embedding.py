@@ -1,6 +1,3 @@
-# --- main.py (Orchestrator) ---
-# FINALE VERSION v4: Implementiert erweitertes Logging zur Anzeige von strukturierten Elementen und Chunks.
-
 import requests
 import logging
 import json
@@ -184,19 +181,28 @@ if __name__ == '__main__':
 
         # SCHRITT 1 & 2: Strukturierung und Textextraktion
         logging.info("\n--- SCHRITT 1: PDF Strukturierung ---")
+        # *** HINZUGEFÜGTE BESCHREIBUNG ***
+        logging.info("Beschreibung: Das PDF wird mit 'unstructured.io' in logische Blöcke (Titel, Text, Bilder etc.) zerlegt.")
+        logging.info("Notwendigkeit: Wandelt das unstrukturierte PDF in ein maschinenlesbares Format um und erkennt Layout-Elemente.")
+        logging.info("Qualitätsrelevanz: Eine präzise Zerlegung ist fundamental. Fehler hier (z.B. übersehene Textblöcke) führen zu Informationsverlust für das gesamte RAG-System.")
+        
         structured_elements = get_structured_data_from_service(PDF_FILE_TO_CHECK)
         if not (structured_elements and "error" not in structured_elements[0]):
             logging.error("\n--- FEHLER: Pipeline gestoppt wegen Fehler im Strukturierungsdienst. ---")
             logging.error(json.dumps(structured_elements, indent=2, ensure_ascii=False))
             sys.exit(1)
         
-        # NEU: Detailliertes Logging der strukturierten Elemente
         logging.info("\n--- Ausgabe von SCHRITT 1 (Vollständige strukturierte Elemente) ---")
         logging.info(json.dumps(structured_elements, indent=2, ensure_ascii=False))
         logging.info(f"Gesamtzahl strukturierter Elemente: {len(structured_elements)}")
         logging.info("-" * 40)
         
         logging.info("\n--- SCHRITT 2: Textextraktion ---")
+        # *** HINZUGEFÜGTE BESCHREIBUNG ***
+        logging.info("Beschreibung: Aus den strukturierten Elementen werden alle reinen Textinhalte extrahiert und zu einem Gesamttext zusammengefügt.")
+        logging.info("Notwendigkeit: Die nachfolgenden Schritte benötigen den reinen Text als Eingabe, befreit von Bildinformationen oder komplexen Metadaten.")
+        logging.info("Qualitätsrelevanz: Die korrekte Auswahl der Textelemente ist entscheidend. Werden irrelevante Texte (z.B. aus Kopf-/Fußzeilen) extrahiert, entsteht 'Rauschen' in der Wissensbasis.")
+
         text_to_process = "".join(
             element.get("text", "") + "\n\n" 
             for element in structured_elements 
@@ -209,6 +215,11 @@ if __name__ == '__main__':
 
         # SCHRITT 3: Basis-NLP-Verarbeitung (einmal für das ganze Dokument)
         logging.info("\n--- SCHRITT 3: NLP-Verarbeitung ---")
+        # *** HINZUGEFÜGTE BESCHREIBUNG ***
+        logging.info("Beschreibung: Der Gesamttext wird analysiert, um Sprache, Entitäten (Personen, Orte) und Wortstämme (Lemmatisierung) zu erkennen.")
+        logging.info("Notwendigkeit: Reichert den Text mit semantischer Bedeutung an, die für erweiterte Suchfunktionen genutzt werden kann.")
+        logging.info("Qualitätsrelevanz: Gute Entitätserkennung verbessert die Suchgenauigkeit, da die Datenbank nicht nur Wörter, sondern auch deren Bedeutung (z.B. 'Opitz Consulting' als Organisation) kennt.")
+
         detected_language = detect_text_language(text_to_process)
         nlp_results = process_text_with_nlp_service(text_to_process, detected_language)
         if not nlp_results or "error" in nlp_results:
@@ -219,7 +230,6 @@ if __name__ == '__main__':
         base_nlp_entities = nlp_results.get("entities", [])
         base_nlp_lemmas = nlp_results.get("lemmas", [])
         
-        # NEU: Detailliertes Logging der NLP-Ergebnisse
         logging.info("\n--- Ausgabe von SCHRITT 3 (NLP-Ergebnisse) ---")
         logging.info(f"Verarbeitete Sprache vom NLP-Dienst: {nlp_results.get('processed_language', 'Unbekannt')}")
         logging.info("\n--- 3.1: Benannte Entitäten (NER) ---")
@@ -232,11 +242,15 @@ if __name__ == '__main__':
         
         # SCHRITT 4: Robustes Vor-Chunking mit RecursiveCharacterTextSplitter
         logging.info(f"\n--- SCHRITT 4: Robustes Vor-Chunking (Größe: {CHUNK_SIZE}, Überlappung: {CHUNK_OVERLAP}) ---")
+        # *** HINZUGEFÜGTE BESCHREIBUNG ***
+        logging.info("Beschreibung: Der Gesamttext wird in kleinere, sich überlappende Abschnitte ('Chunks') zerlegt.")
+        logging.info("Notwendigkeit: Sprachmodelle können nur eine begrenzte Textmenge auf einmal verarbeiten. Chunks sind verdaubare Wissensschnipsel.")
+        logging.info("Qualitätsrelevanz: Die Chunk-Strategie ist kritisch. Zu kleine Chunks zerreißen den Kontext; zu große enthalten zu viele irrelevante Informationen. Die Überlappung sichert den Kontexterhalt über Chunk-Grenzen hinweg.")
+
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP, length_function=len)
         preliminary_chunks = text_splitter.split_text(text_to_process)
         logging.info(f"Dokument wurde in {len(preliminary_chunks)} vorläufige Chunks aufgeteilt.")
 
-        # NEU: Detailliertes Logging der erstellten Chunks
         logging.info("\n--- Ausgabe von SCHRITT 4 (Erstellte Chunks) ---")
         for i, chunk in enumerate(preliminary_chunks):
             logging.info(f"\n----- Chunk {i+1} / {len(preliminary_chunks)} -----")
@@ -245,6 +259,11 @@ if __name__ == '__main__':
         
         # SCHRITT 5: Semantische Anreicherung für jeden einzelnen Chunk
         logging.info(f"\n--- SCHRITT 5: Starte Anreicherung für {len(preliminary_chunks)} Chunks mit DeepSeek ---")
+        # *** HINZUGEFÜGTE BESCHREIBUNG ***
+        logging.info("Beschreibung: Jeder Chunk wird an ein LLM gesendet, um eine Zusammenfassung, Schlüsselwörter und mögliche Fragen zu generieren.")
+        logging.info("Notwendigkeit: Macht die Chunks 'intelligenter' und expliziert ihre Kernaussage für eine verbesserte Suche.")
+        logging.info("Qualitätsrelevanz: Ein entscheidender Schritt. Gute Zusammenfassungen verbessern die Retrieval-Genauigkeit erheblich, da die Suchanfrage nicht exakt die Worte des Originaltextes enthalten muss.")
+
         all_enriched_chunks = []
         for i, chunk_text in enumerate(preliminary_chunks):
             logging.info(f"Verarbeite Chunk {i + 1}/{len(preliminary_chunks)}...")
@@ -271,6 +290,11 @@ if __name__ == '__main__':
         # SCHRITT 6: Embedding-Generierung für die angereicherten Chunks
         if all_enriched_chunks:
             logging.info(f"\n--- SCHRITT 6: Sende {len(all_enriched_chunks)} angereicherte Chunks an den Embedding-Dienst ---")
+            # *** HINZUGEFÜGTE BESCHREIBUNG ***
+            logging.info("Beschreibung: Jeder angereicherte Chunk wird in einen Vektor (Zahlenreihe) umgewandelt und in der Vektor-DB (ChromaDB) gespeichert.")
+            logging.info("Notwendigkeit: Vektoren ermöglichen die semantische Ähnlichkeitssuche, das Kernstück des 'Retrieval'-Prozesses in RAG.")
+            logging.info("Qualitätsrelevanz: Die Qualität des Embedding-Modells bestimmt, wie gut die semantische Ähnlichkeit zwischen Frage und Text erfasst wird. Dies ist das Fundament für das Finden der richtigen Informationen.")
+
             embedding_response = call_embedding_service(all_enriched_chunks, base_nlp_entities, base_nlp_lemmas)
             
             if embedding_response and embedding_response.get("status") == "success":
@@ -286,4 +310,3 @@ if __name__ == '__main__':
 
     except Exception as e:
         logging.critical("Ein unerwarteter, kritischer Fehler ist in der Haupt-Pipeline aufgetreten.", exc_info=True)
-
